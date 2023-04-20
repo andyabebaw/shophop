@@ -1,5 +1,5 @@
 AS a business owner who wants to sell my products
-I WANT a modular platform through which i can manage my stock of products
+I WANT a modular platform through which i can manage my products
 SO THAT clients can have a user friendly experience when shopping on my website
 
 GIVEN a commerce platform
