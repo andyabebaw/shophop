@@ -7,6 +7,29 @@ const { signToken } = require("../utils/auth");
 // "admin": true
 
 const resolvers = {
+  Query: {
+    categories: async () => {
+      return await Category.find();
+    },
+    products: async (parent, { category, name }) => {
+      const params = {};
+
+      if (category) {
+        params.categories = category;
+      }
+
+      if (name) {
+        params.name = {
+          $regex: name,
+        };
+      }
+
+      return await Product.find(params).populate("categories");
+    },
+    product: async (parent, { _id }) => {
+      return await Product.findById(_id).populate("categories");
+    },
+  },
   Mutation: {
     addUser: async (parent, args) => {
       const user = await User.create(args);

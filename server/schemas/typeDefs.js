@@ -40,11 +40,10 @@ const typeDefs = gql`
   }
 
   type Query {
+    user: User
     categories: [Category]
     products(category: ID, name: String): [Product]
     product(_id: ID!): Product
-    user: User
-    checkout(products: [ID]!): Checkout
   }
 
   type Mutation {
@@ -55,8 +54,8 @@ const typeDefs = gql`
       admin: Boolean
     ): Auth
     login(email: String!, password: String!): Auth
-    addProduct(products: [ID]!): Product
     updateUser(name: String, email: String, password: String): User
+    addProduct(products: [ID]!): Product
     updateProduct(_id: ID!, quantity: Int!): Product
     addReview(reviewBody: String, userId: ID!): Product
   }
