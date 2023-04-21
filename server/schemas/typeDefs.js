@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server-express');
+const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
   type Category {
@@ -41,11 +41,16 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addUser(name: String!, email: String!, password: String!): Auth
+    addUser(
+      name: String!
+      email: String!
+      password: String!
+      admin: Boolean
+    ): Auth
     addProduct(products: [ID]!): Product
     updateUser(name: String, email: String, password: String): User
     updateProduct(_id: ID!, quantity: Int!): Product
-    addReview(review: String)
+    addReview(review: String): Product
     login(email: String!, password: String!): Auth
   }
 `;
