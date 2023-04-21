@@ -13,7 +13,7 @@ const typeDefs = gql`
     image: String
     quantity: Int
     price: Float
-    category: Category
+    categories: [Category]
     reviews: [Review]
   }
 
@@ -39,6 +39,20 @@ const typeDefs = gql`
     user: User
   }
 
+  input CategoryData {
+    _id: ID
+    name: String
+  }
+
+  input ProductData {
+    name: String
+    description: String
+    image: String
+    quantity: Int
+    price: Float
+    categories: [CategoryData]
+  }
+
   type Query {
     user: User
     categories: [Category]
@@ -55,9 +69,9 @@ const typeDefs = gql`
     ): Auth
     login(email: String!, password: String!): Auth
     updateUser(name: String, email: String, password: String): User
-    addProduct(products: [ID]!): Product
     updateProduct(_id: ID!, quantity: Int!): Product
     addReview(reviewBody: String, userId: ID!): Product
+    addProduct(product: ProductData): Product
   }
 `;
 

@@ -20,15 +20,18 @@ module.exports = {
     try {
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
       req.user = data;
-    } catch {
-      console.log("Invalid token");
+
+      // console.log("===== Enter authMiddleware with valid token =====");
+      // console.log("data: ", data);
+    } catch (err) {
+      console.log("===== Error Happened! =====");
+      console.log("error: ", err);
     }
 
     return req;
   },
-  signToken: function ({ firstName, email, _id }) {
-    const payload = { firstName, email, _id };
-
+  signToken: function ({ _id, name, email, admin }) {
+    const payload = { _id, name, email, admin };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
 };
