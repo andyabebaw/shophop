@@ -17,7 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/EditProduct" element={<EditProduct />} />
+            <Route path="/editproduct" element={<EditProduct />} />
             <Route path="/products/:id" element={<Detail />} />
             <Route path="*" element={<NoMatch />} />
           </Routes>
