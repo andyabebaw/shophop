@@ -12,9 +12,6 @@ const reviewSchema = new Schema(
       ref: 'User',
       required: true
     }
-  },
-  {
-    id: false,
   }
 );
 
