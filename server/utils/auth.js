@@ -24,14 +24,14 @@ module.exports = {
       // console.log("===== Enter authMiddleware with valid token =====");
       // console.log("data: ", data);
     } catch (err) {
-      console.log("===== Error Happened! =====");
+      // console.log("===== Error Happened! =====");
       console.log("error: ", err);
     }
 
     return req;
   },
-  signToken: function ({ _id, name, email, admin }) {
-    const payload = { _id, name, email, admin };
+  signToken: function ({ _id, name, email, isAdmin }) {
+    const payload = { _id, name, email, isAdmin };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
 };

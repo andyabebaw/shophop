@@ -27,7 +27,7 @@ const typeDefs = gql`
     _id: ID
     name: String
     email: String
-    admin: Boolean
+    isAdmin: Boolean
   }
 
   type Checkout {
@@ -39,18 +39,13 @@ const typeDefs = gql`
     user: User
   }
 
-  input CategoryData {
-    _id: ID
-    name: String
-  }
-
   input ProductData {
     name: String
     description: String
+    price: Float
     image: String
     quantity: Int
-    price: Float
-    categories: [CategoryData]
+    categories: [ID]
   }
 
   type Query {
@@ -65,13 +60,13 @@ const typeDefs = gql`
       name: String!
       email: String!
       password: String!
-      admin: Boolean
+      isAdmin: Boolean
     ): Auth
     login(email: String!, password: String!): Auth
     updateUser(name: String, email: String, password: String): User
-    updateProduct(_id: ID!, quantity: Int!): Product
     addReview(reviewBody: String, userId: ID!): Product
     addProduct(product: ProductData): Product
+    updateProduct(_id: ID!, quantity: Int!): Product
   }
 `;
 

@@ -5,7 +5,7 @@ const { signToken } = require("../utils/auth");
 // "name": "jane",
 // "email": "jane@gmail.com",
 // "password": "test1234",
-// "admin": true
+// "isAdmin": true
 
 const resolvers = {
   Query: {
@@ -72,14 +72,16 @@ const resolvers = {
       }
     },
     addProduct: async (parent, newProduct, context) => {
-      if (context.user.admin) {
+      if (context.user.isAdmin) {
         console.log("🚀 newProduct", newProduct);
-
-        // const product = await Product.create(newProduct);
-        return;
+        const productDoc = await Product.create(newProduct.product);
+        const product = await Product.findOne({ _id: productDoc._id })
+          .populate("categories", "name")
+          .exec();
+        return product;
       }
 
-      throw new AuthenticationError("Forbidden");
+      throw new AuthenticationError("Forbidden, You are not an admin");
     },
   },
 };
