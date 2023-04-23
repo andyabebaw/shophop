@@ -20,11 +20,12 @@ const resolvers = {
     categories: async () => {
       return await Category.find();
     },
-    products: async (parent, { category, name }) => {
+    products: async (parent, { categoryID, name }) => {
+      console.log("entered query products resolver");
       const params = {};
 
-      if (category) {
-        params.categories = category;
+      if (categoryID) {
+        params.categories = categoryID;
       }
 
       if (name) {
