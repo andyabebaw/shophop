@@ -83,6 +83,18 @@ const resolvers = {
 
       throw new AuthenticationError("Forbidden, You are not an admin");
     },
+    updateProduct: async (parent, updateProduct, context) => {
+      if (context.user.isAdmin) {
+        const product = await Product.findByIdAndUpdate(
+          updateProduct._id,
+          updateProduct.product,
+          { new: true }
+        ).populate("categories", "name");
+        return product;
+      }
+
+      throw new AuthenticationError("Forbidden, You are not an admin");
+    },
   },
 };
 
