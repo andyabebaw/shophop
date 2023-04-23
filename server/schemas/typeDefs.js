@@ -64,9 +64,9 @@ const typeDefs = gql`
     ): Auth
     login(email: String!, password: String!): Auth
     updateUser(name: String, email: String, password: String): User
-    addReview(reviewBody: String, userId: ID!): Product
     addProduct(product: ProductData): Product
     updateProduct(_id: ID!, product: ProductData): Product
+    updateProductReviews(productId: ID, reviewBody: String): Product
   }
 `;
 

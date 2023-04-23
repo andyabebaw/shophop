@@ -71,6 +71,41 @@ const resolvers = {
         throw new AuthenticationError(error);
       }
     },
+    updateProductReviews: async (_, { productId, reviewBody }, { user }) => {
+      try {
+        if (!user) {
+          throw new AuthenticationError(
+            "You must be logged in to create a review"
+          );
+        }
+
+        const product = await Product.findById(productId);
+
+        if (!product) {
+          throw new UserInputError("Product not found");
+        }
+
+        const newReview = {
+          reviewBody,
+          userId: user._id,
+        };
+
+        // Add the new review to the product's reviews array
+        await Product.updateOne(
+          { _id: productId },
+          { $push: { reviews: newReview } }
+        );
+
+        // Return the updated product document
+        return await Product.findById(productId).populate("categories", "name");
+      } catch (err) {
+        console.error(err);
+        throw new ApolloError(
+          "Failed to update product reviews",
+          "INTERNAL_SERVER_ERROR"
+        );
+      }
+    },
     addProduct: async (parent, newProduct, context) => {
       if (context.user.isAdmin) {
         console.log("🚀 newProduct", newProduct);
