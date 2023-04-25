@@ -2,8 +2,8 @@ const { AuthenticationError } = require("apollo-server-express");
 const { User, Product, Category } = require("../models");
 const { signToken } = require("../utils/auth");
 
-// "name": "jane",
-// "email": "jane@gmail.com",
+// "name": "john",
+// "email": "john@gmail.com",
 // "password": "test1234",
 // "isAdmin": true
 
