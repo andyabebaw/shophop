@@ -7,12 +7,14 @@ import EditProduct from "./pages/EditProduct";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NoMatch from "./pages/NoMatch";
+import Cart from './components/Cart'
 
 function App() {
   return (
     <>
       <div>
         <Nav />
+        <Cart />
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />

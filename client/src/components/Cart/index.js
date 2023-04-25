@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
+import { FloatButton } from 'antd';
+import { ShoppingCartOutlined } from '@ant-design/icons'
 
-function Cart() {
-  return (
-    <div>index</div>
-  )
-}
+const Cart: React.FC = () => <FloatButton type={'primary'} icon={<ShoppingCartOutlined />} shape={'square'} onClick={() => console.log('click')} />;
 
-export default Cart
+export default Cart;

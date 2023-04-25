@@ -50,11 +50,11 @@ const items: MenuProps['items'] = [
     key: 'logout',
     icon: <LogoutOutlined />,
   },
-  {
-    label: 'Cart',
-    key: 'cart',
-    icon: <ShoppingCartOutlined />,
-  },
+  // {
+  //   label: 'Cart',
+  //   key: 'cart',
+  //   icon: <ShoppingCartOutlined />,
+  // },
 ];
 
 const Nav: React.FC = () => {
