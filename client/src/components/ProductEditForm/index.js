@@ -65,7 +65,6 @@ const CreateProduct: React.FC = () => (
         <Form.Item
             label="Category"
             name="categories"
-
         >
             <Input />
         </Form.Item>
@@ -79,3 +78,4 @@ const CreateProduct: React.FC = () => (
 );
 
 export default CreateProduct;
+
