@@ -1,9 +1,28 @@
-import React from 'react'
+import React from 'react';
+import { ShoppingCartOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { Avatar, Card } from 'antd';
 
-function ProductItem() {
-  return (
-    <div>ProductItem</div>
-  )
-}
+const { Meta } = Card;
 
-export default ProductItem
+const ProductItem: React.FC = ({ title, description, src, alt }) => (
+  <Card
+    style={{ width: 300 }}
+    cover={
+      <img
+        alt= {alt}
+        src= {src}
+      />
+    }
+    actions={[
+      <ShoppingCartOutlined key="addToCart"/>,
+      <InfoCircleOutlined key="info"/>
+    ]}
+  >
+    <Meta
+      title= {title}
+      description={description}
+    />
+  </Card>
+);
+
+export default ProductItem;
