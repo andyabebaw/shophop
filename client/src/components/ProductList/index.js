@@ -8,13 +8,13 @@
 
 // export default ProductList
 
-import React, { useEffect } from 'react';
-import ProductItem from '../ProductItem';
-import { useStoreContext } from '../../utils/GlobalState';
-import { UPDATE_PRODUCTS } from '../../utils/actions';
-import { useQuery } from '@apollo/client';
-import { QUERY_PRODUCTS } from '../../utils/queries';
-import { idbPromise } from '../../utils/helpers';
+import { useQuery } from "@apollo/client";
+import React, { useEffect } from "react";
+import { useStoreContext } from "../../utils/GlobalState";
+import { UPDATE_PRODUCTS } from "../../utils/actions";
+import { idbPromise } from "../../utils/helpers";
+import { QUERY_PRODUCTS } from "../../utils/queries";
+import ProductItem from "../ProductItem";
 // import spinner from '../../assets/spinner.gif';
 
 function ProductList() {
@@ -31,10 +31,10 @@ function ProductList() {
         products: data.products,
       });
       data.products.forEach((product) => {
-        idbPromise('products', 'put', product);
+        idbPromise("products", "put", product);
       });
     } else if (!loading) {
-      idbPromise('products', 'get').then((products) => {
+      idbPromise("products", "get").then((products) => {
         dispatch({
           type: UPDATE_PRODUCTS,
           products: products,

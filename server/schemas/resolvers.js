@@ -1,10 +1,9 @@
 const { AuthenticationError } = require("apollo-server-express");
 const { User, Product, Category } = require("../models");
 const { signToken } = require("../utils/auth");
-const { AuthenticationError } = require('apollo-server-express');
-
-const stripe = require('stripe')('sk_test_51Mzw9mK92Z1fiE1CekPRcxQuqnWoYxJ9eq5nyU2DmPuSzzqEm24fxw5ENagAziQCJPjnM5F53DVvwbqm9zhRW0Io00PsLIuc6Y');
-
+const stripe = require("stripe")(
+  "sk_test_51Mzw9mK92Z1fiE1CekPRcxQuqnWoYxJ9eq5nyU2DmPuSzzqEm24fxw5ENagAziQCJPjnM5F53DVvwbqm9zhRW0Io00PsLIuc6Y"
+);
 
 const resolvers = {
   Query: {
@@ -130,7 +129,7 @@ const resolvers = {
 
       throw new AuthenticationError("Forbidden, You are not an admin");
     },
-  }
+  },
 };
 
 module.exports = resolvers;
