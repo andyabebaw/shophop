@@ -11,7 +11,7 @@ const Home = () => {
     }
     console.log(loading);
     console.log(data);
-  }, [data]);
+  }, []);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -19,9 +19,14 @@ const Home = () => {
 
   return (
     <>
-      {data?.categories?.map((category) => category.name)}
-
-      <div>Home</div>
+      <div>Homepage</div>
+      <hr />
+      {data.categories.map((category) => (
+        <div key={category._id}>
+          <div>{category._id}</div>
+          <div>{category.name}</div>
+        </div>
+      ))}
     </>
   );
 };
