@@ -200,18 +200,21 @@ const resolvers = {
 
               if (existingCategory) {
                 // Category already exists in the database
-                // return existingCategory._id;
-                return;
+                return existingCategory._id;
               } else {
                 // Create a new category
                 const newCategory = new Category({ name: category });
-                return newCategory.save();
+                const savedCategory = await newCategory.save();
+                return savedCategory._id;
               }
             })
           );
 
-          // Add new categories to existing ones
-          const updatedCategories = product.categories.concat(savedCategories);
+          // // Add new categories to existing ones
+          // const updatedCategories = product.categories.concat(savedCategories);
+          // const uniqueIds = [...new Set(idArray.map((id) => id.toString()))];
+          // console.log(updatedCategories);
+          // console.log(uniqueIds);
 
           // Update the product
           const result = await Product.findByIdAndUpdate(
@@ -222,7 +225,7 @@ const resolvers = {
               image,
               price,
               quantity,
-              categories: updatedCategories,
+              categories: savedCategories,
             },
             { new: true } // Return the updated product instead of the old one
           ).populate("categories", "name");
