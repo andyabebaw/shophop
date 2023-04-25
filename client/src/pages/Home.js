@@ -14,6 +14,6 @@ const Home = () => {
     {/* <ProductItem /> */}
     <Cart />
   </div>;
-};
+}
 
 export default Home;

@@ -1,4 +1,5 @@
-const { User, Product, Category, Order } = require("../models");
+const { AuthenticationError } = require("apollo-server-express");
+const { User, Product, Category } = require("../models");
 const { signToken } = require("../utils/auth");
 const { AuthenticationError } = require('apollo-server-express');
 
@@ -7,96 +8,127 @@ const stripe = require('stripe')('sk_test_51Mzw9mK92Z1fiE1CekPRcxQuqnWoYxJ9eq5ny
 
 const resolvers = {
   Query: {
+    user: async (parent, args, context) => {
+      if (context.user) {
+        const user = await User.findById(context.user._id);
+        return user;
+      }
+
+      throw new AuthenticationError("Not logged in");
+    },
     categories: async () => {
       return await Category.find();
     },
-    products: async (parent, { category, name }) => {
+    products: async (parent, { categoryID, name }) => {
+      console.log("entered query products resolver");
       const params = {};
 
-      if (category) {
-        params.category = category;
+      if (categoryID) {
+        params.categories = categoryID;
       }
 
       if (name) {
         params.name = {
-          $regex: name
+          $regex: name,
         };
       }
 
-      return await Product.find(params).populate('category');
+      return await Product.find(params).populate("categories");
     },
     product: async (parent, { _id }) => {
-      return await Product.findById(_id).populate('category');
+      return await Product.findById(_id).populate("categories");
     },
-    user: async (parent, args, context) => {
-      if (context.user) {
-        const user = await User.findById(context.user._id).populate({
-          path: 'orders.products',
-          populate: 'category'
-        });
-
-        user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
-
-        return user;
-      }
-
-      throw new AuthenticationError('Not logged in');
-    },
-    order: async (parent, { _id }, context) => {
-      if (context.user) {
-        const user = await User.findById(context.user._id).populate({
-          path: 'orders.products',
-          populate: 'category'
-        });
-
-        return user.orders.id(_id);
-      }
-
-      throw new AuthenticationError('Not logged in');
-    },
-    checkout: async (parent, args, context) => {
-      const url = new URL(context.headers.referer).origin;
-      const order = new Order({ products: args.products });
-      const line_items = [];
-
-      const { products } = await order.populate('products');
-
-      for (let i = 0; i < products.length; i++) {
-        const product = await stripe.products.create({
-          name: products[i].name,
-          description: products[i].description,
-          images: [`${url}/images/${products[i].image}`]
-        });
-
-        const price = await stripe.prices.create({
-          product: product.id,
-          unit_amount: products[i].price * 100,
-          currency: 'usd',
-        });
-
-        line_items.push({
-          price: price.id,
-          quantity: 1
-        });
-      }
-
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items,
-        mode: 'payment',
-        success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${url}/`
-      });
-
-      return { session: session.id };
-    }
   },
-
   Mutation: {
     addUser: async (parent, args) => {
-      const user = await User.create(args);
-      const token = signToken(user);
-      return { token, user };
+      try {
+        const user = await User.create(args);
+        const token = signToken(user);
+        return { token, user };
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    },
+    login: async (parent, { email, password }) => {
+      try {
+        const user = await User.findOne({ email });
+
+        if (!user) {
+          throw new AuthenticationError("Incorrect email");
+        }
+
+        const correctPw = await user.isCorrectPassword(password);
+
+        if (!correctPw) {
+          throw new AuthenticationError("Incorrect password");
+        }
+
+        const token = signToken(user);
+
+        return { token, user };
+      } catch (error) {
+        console.log(error);
+        throw new AuthenticationError(error);
+      }
+    },
+    updateProductReviews: async (_, { productId, reviewBody }, { user }) => {
+      try {
+        if (!user) {
+          throw new AuthenticationError(
+            "You must be logged in to create a review"
+          );
+        }
+
+        const product = await Product.findById(productId);
+
+        if (!product) {
+          throw new UserInputError("Product not found");
+        }
+
+        const newReview = {
+          reviewBody,
+          userId: user._id,
+        };
+
+        // Add the new review to the product's reviews array
+        await Product.updateOne(
+          { _id: productId },
+          { $push: { reviews: newReview } }
+        );
+
+        // Return the updated product document
+        return await Product.findById(productId).populate("categories", "name");
+      } catch (err) {
+        console.error(err);
+        throw new ApolloError(
+          "Failed to update product reviews",
+          "INTERNAL_SERVER_ERROR"
+        );
+      }
+    },
+    addProduct: async (parent, newProduct, context) => {
+      if (context.user.isAdmin) {
+        console.log("🚀 newProduct", newProduct);
+        const productDoc = await Product.create(newProduct.product);
+        const product = await Product.findOne({ _id: productDoc._id })
+          .populate("categories", "name")
+          .exec();
+        return product;
+      }
+
+      throw new AuthenticationError("Forbidden, You are not an admin");
+    },
+    updateProduct: async (parent, updateProduct, context) => {
+      if (context.user.isAdmin) {
+        const product = await Product.findByIdAndUpdate(
+          updateProduct._id,
+          updateProduct.product,
+          { new: true }
+        ).populate("categories", "name");
+        return product;
+      }
+
+      throw new AuthenticationError("Forbidden, You are not an admin");
     },
   }
 };
