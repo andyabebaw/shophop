@@ -46,7 +46,7 @@ const typeDefs = gql`
     user: User
   }
 
-  input ProductData {
+  input ProductDataInput {
     name: String
     description: String
     price: Float
@@ -73,8 +73,8 @@ const typeDefs = gql`
     ): Auth
     login(email: String!, password: String!): Auth
     updateUser(name: String, email: String, password: String): User
-    addProduct(product: ProductData): Product
-    updateProduct(_id: ID!, product: ProductData): Product
+    addProduct(product: ProductDataInput): Product
+    updateProduct(_id: ID!, product: ProductDataInput): Product
     updateProductReviews(productId: ID, reviewBody: String): Product
   }
 `;

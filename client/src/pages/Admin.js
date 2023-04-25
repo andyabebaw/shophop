@@ -1,4 +1,7 @@
+import { useMutation } from "@apollo/client";
 import { useState } from "react";
+import { ADD_PRODUCT } from "../utils/mutations";
+import "./admin.css";
 
 const Admin = () => {
   const [productData, setProductData] = useState({
@@ -10,9 +13,25 @@ const Admin = () => {
     categories: [],
   });
 
+  const [addProduct] = useMutation(ADD_PRODUCT);
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setProductData({ ...productData, [name]: value });
+
+    // Convert price to float
+    if (name === "price") {
+      setProductData({ ...productData, [name]: parseFloat(value) });
+    }
+
+    // Convert quantity to integer
+    else if (name === "quantity") {
+      setProductData({ ...productData, [name]: parseInt(value) });
+    }
+
+    // For other fields, just set the value as is
+    else {
+      setProductData({ ...productData, [name]: value });
+    }
   };
 
   const handleCategoryInputChange = (event) => {
@@ -27,9 +46,21 @@ const Admin = () => {
     setProductData({ ...productData, categories: [] });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    console.log(productData);
     event.preventDefault();
-    // Add code to submit data to server here
+
+    try {
+      const mutationResponse = await addProduct({
+        variables: {
+          product: productData,
+        },
+      });
+
+      console.log(mutationResponse);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -45,31 +76,12 @@ const Admin = () => {
         />
       </div>
       <div>
-        <label htmlFor="description">Description:</label>
-        <textarea
-          id="description"
-          name="description"
-          value={productData.description}
-          onChange={handleInputChange}
-        ></textarea>
-      </div>
-      <div>
         <label htmlFor="price">Price:</label>
         <input
           type="number"
           id="price"
           name="price"
           value={productData.price}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="image">Image:</label>
-        <input
-          type="text"
-          id="image"
-          name="image"
-          value={productData.image}
           onChange={handleInputChange}
         />
       </div>
@@ -84,6 +96,25 @@ const Admin = () => {
         />
       </div>
       <div>
+        <label htmlFor="description">Description:</label>
+        <textarea
+          id="description"
+          name="description"
+          value={productData.description}
+          onChange={handleInputChange}
+        ></textarea>
+      </div>
+      <div>
+        <label htmlFor="image">Image:</label>
+        <input
+          type="text"
+          id="image"
+          name="image"
+          value={productData.image}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="categories">
         <label htmlFor="categories">Categories:</label>
         <input
           type="text"

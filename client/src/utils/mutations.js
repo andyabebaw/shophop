@@ -39,7 +39,7 @@ export const LOGIN = gql`
 `;
 
 export const ADD_PRODUCT = gql`
-  mutation AddProduct($product: ProductData!) {
+  mutation addProduct($product: ProductDataInput!) {
     addProduct(product: $product) {
       _id
       name
