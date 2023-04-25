@@ -5,6 +5,11 @@ import { Menu } from 'antd';
 
 const items: MenuProps['items'] = [
   {
+    label: 'Title',
+    key: 'title',
+    icon: <SettingOutlined />,
+  },
+  {
     label: 'Admin Options',
     key: 'SubMenu',
     icon: <SettingOutlined />,
