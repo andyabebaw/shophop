@@ -13,14 +13,21 @@ const typeDefs = gql`
     image: String
     quantity: Int
     price: Float
-    category: Category
+    categories: [Category]
+    reviews: [Review]
+  }
+
+  type Review {
+    _id: ID
+    reviewBody: String
+    userId: ID
   }
 
   type User {
     _id: ID
     name: String
     email: String
-    admin: Boolean
+    isAdmin: Boolean
   }
 
   type Checkout {
@@ -32,12 +39,20 @@ const typeDefs = gql`
     user: User
   }
 
+  input ProductData {
+    name: String
+    description: String
+    price: Float
+    image: String
+    quantity: Int
+    categories: [ID]
+  }
+
   type Query {
-    categories: [Category]
-    products(category: ID, name: String): [Product]
-    product(_id: ID!): Product
     user: User
-    checkout(products: [ID]!): Checkout
+    categories: [Category]
+    products(categoryID: ID, name: String): [Product]
+    product(_id: ID!): Product
   }
 
   type Mutation {
@@ -45,13 +60,13 @@ const typeDefs = gql`
       name: String!
       email: String!
       password: String!
-      admin: Boolean
+      isAdmin: Boolean
     ): Auth
-    addProduct(products: [ID]!): Product
-    updateUser(name: String, email: String, password: String): User
-    updateProduct(_id: ID!, quantity: Int!): Product
-    addReview(review: String): Product
     login(email: String!, password: String!): Auth
+    updateUser(name: String, email: String, password: String): User
+    addProduct(product: ProductData): Product
+    updateProduct(_id: ID!, product: ProductData): Product
+    updateProductReviews(productId: ID, reviewBody: String): Product
   }
 `;
 
