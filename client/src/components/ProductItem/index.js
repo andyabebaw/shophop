@@ -22,7 +22,6 @@ function ProductItem(item) {
   const { cart } = state
 
   const addToCart = () => {
-    console.log('click')
     const itemInCart = cart.find((cartItem) => cartItem._id === _id)
     if (itemInCart) {
       dispatch({
