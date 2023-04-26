@@ -8,7 +8,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NoMatch from "./pages/NoMatch";
 import CartIcon from './components/CartIcon'
-import Space from 'antd'
+import AddProduct from './pages/AddProduct'
 
 function App() {
   return (
@@ -21,6 +21,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/editproduct" element={<EditProduct />} />
+            <Route path="/addproduct" element={<AddProduct />} />
             <Route path="/products/:id" element={<Detail />} />
             <Route path="*" element={<NoMatch />} />
           </Routes>
