@@ -1,40 +1,4 @@
-// import React from 'react';
-// import { ShoppingCartOutlined, InfoCircleOutlined } from '@ant-design/icons';
-// import { Avatar, Card } from 'antd';
 
-// const { Meta } = Card;
-
-// const ProductItem: React.FC = ({ title, description, src, alt }) => (
-//   <Card
-//     style={{ width: 300 }}
-//     cover={
-//       <img
-//         alt= {alt}
-//         src= {src}
-//       />
-//     }
-//     actions={[
-//       <ShoppingCartOutlined key="addToCart"/>,
-//       <InfoCircleOutlined key="info"/>
-//     ]}
-//   >
-//     <Meta
-//       title= {title}
-//       description={description}
-//     />
-//   </Card>
-// );
-
-// export default ProductItem;
-// import React from 'react'
-
-// function ProductItem() {
-//   return (
-//     <div>ProductItem</div>
-//   )
-// }
-
-// export default ProductItem
 
 import React from "react";
 import { Link } from "react-router-dom";
@@ -42,6 +6,7 @@ import { pluralize } from "../../utils/helpers"
 import { useStoreContext } from "../../utils/GlobalState";
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
 import { idbPromise } from "../../utils/helpers";
+import ProductCard from "../ProductCard"
 
 function ProductItem(item) {
   const [state, dispatch] = useStoreContext();
@@ -76,6 +41,10 @@ function ProductItem(item) {
       idbPromise('cart', 'put', { ...item, purchaseQuantity: 1 });
     }
   }
+
+  return (
+    <ProductCard title={name} description/>
+  );
 
   return (
     <div className="card px-1 py-1">

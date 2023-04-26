@@ -16,7 +16,7 @@ function App() {
       <div>
         <Nav />
         <Cart />
-        <Router>
+        {/* <Router> */}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -24,7 +24,7 @@ function App() {
             <Route path="/products/:id" element={<Detail />} />
             <Route path="*" element={<NoMatch />} />
           </Routes>
-        </Router>
+        {/* </Router> */}
       </div>
     </>
   );
