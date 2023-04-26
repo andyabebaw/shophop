@@ -1,7 +1,10 @@
 import React from "react";
+// import Cart from "../components/Cart";
 
 const Home = () => {
-  return <div className="container">Home</div>;
+  return <div >Home
+  {/* <Cart /> */}
+  </div>;
 };
 
 export default Home;
