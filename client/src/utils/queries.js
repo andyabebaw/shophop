@@ -40,9 +40,9 @@ export const QUERY_ALL_PRODUCTS = gql`
   }
 `;
 
-export const QUERY_PRODUCTS_ByCategoryID = gql`
-  query GetProductsByCategoryID($categoryID: ID) {
-    products(categoryID: $categoryID) {
+export const QUERY_PRODUCTS_ByCategoryName = gql`
+  query GetProductsByCategoryName($categoryName: String) {
+    products(categoryName: $categoryName) {
       _id
       name
       description

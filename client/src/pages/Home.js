@@ -10,7 +10,7 @@ const Home = () => {
       console.log(data);
     }
     console.log("loading", loading);
-    console.log("data", data);
+    console.log("product data", data);
   }, [data, loading]);
 
   if (loading) {

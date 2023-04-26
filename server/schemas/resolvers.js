@@ -18,12 +18,15 @@ const resolvers = {
     categories: async () => {
       return await Category.find();
     },
-    products: async (parent, { categoryID, name }) => {
+    products: async (parent, { categoryName, name }) => {
       console.log("entered query products resolver");
       const params = {};
 
-      if (categoryID) {
-        params.categories = categoryID;
+      if (categoryName) {
+        const categoryObj = await Category.findOne({ name: categoryName });
+        if (categoryObj) {
+          params.categories = categoryObj._id;
+        }
       }
 
       if (name) {
@@ -106,10 +109,11 @@ const resolvers = {
       }
     },
     addProduct: async (parent, addedProduct, context) => {
-      // console.log("hello from addProduct resolver");
-      // console.log("addedProduct", addedProduct);
+      console.log("====hello from addProduct resolver====");
+      console.log("addedProduct", addedProduct);
+      console.log("context", context.user);
 
-      if (context.user?.isAdmin) {
+      if (context.user && context.user.isAdmin) {
         // console.log("You are an admin and you are inside addProduct resolver");
         // console.table(addedProduct.product.categories);
 

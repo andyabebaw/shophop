@@ -47,7 +47,7 @@ const Admin = () => {
   };
 
   const handleSubmit = async (event) => {
-    console.log(productData);
+    console.log("productData in the form", productData);
     event.preventDefault();
 
     try {
