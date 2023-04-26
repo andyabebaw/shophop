@@ -43,9 +43,10 @@ const AuthProvider = (props) => {
 
   const login = (data) => {
     localStorage.setItem("token", data);
+    const decodedToken = decode(data);
     dispatch({
       type: "LOGIN",
-      payload: data,
+      payload: decodedToken,
     });
   };
 

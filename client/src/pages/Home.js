@@ -1,17 +1,17 @@
 import { useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
-import { QUERY_CATEGORIES } from "../utils/queries";
+import { QUERY_ALL_PRODUCTS, QUERY_CATEGORIES } from "../utils/queries";
 
 const Home = () => {
-  const { loading, data } = useQuery(QUERY_CATEGORIES);
+  const { loading, data } = useQuery(QUERY_ALL_PRODUCTS);
 
   useEffect(() => {
     if (data) {
       console.log(data);
     }
-    console.log(loading);
-    console.log(data);
-  }, []);
+    console.log("loading", loading);
+    console.log("data", data);
+  }, [data, loading]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -21,10 +21,10 @@ const Home = () => {
     <>
       <div>Homepage</div>
       <hr />
-      {data.categories.map((category) => (
-        <div key={category._id}>
-          <div>{category._id}</div>
-          <div>{category.name}</div>
+      {data?.products?.map((d) => (
+        <div key={d._id}>
+          <div>{d._id}</div>
+          <div>{d.name}</div>
         </div>
       ))}
     </>

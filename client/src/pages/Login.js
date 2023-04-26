@@ -19,7 +19,7 @@ const Login = () => {
       const mutationResponse = await loginAPI({
         variables: { email: email, password: password },
       });
-      console.log(mutationResponse);
+      // console.log(mutationResponse);
       const token = mutationResponse.data.login.token;
       navigate("/");
       authContext.login(token);
