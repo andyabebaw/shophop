@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, Routes, Router } from "react-router-dom";
 
 import Nav from "./components/Nav";
 import Detail from "./pages/Detail";
@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NoMatch from "./pages/NoMatch";
 import Cart from './components/Cart'
+
 
 function App() {
   return (

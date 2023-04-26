@@ -4,27 +4,32 @@ const Review = require("./Review");
 const { Schema } = mongoose;
 const bcrypt = require("bcrypt");
 
-const userSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true,
+const userSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 5,
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 5,
-  },
-  admin: {
-    type: Boolean,
-    default: false,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 // set up pre-save middleware to create password
 userSchema.pre("save", async function (next) {
