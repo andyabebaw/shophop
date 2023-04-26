@@ -7,15 +7,15 @@ import EditProduct from "./pages/EditProduct";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NoMatch from "./pages/NoMatch";
-import Cart from './components/Cart'
-
+import CartIcon from './components/CartIcon'
+import Space from 'antd'
 
 function App() {
   return (
-    <>
+
       <div>
         <Nav />
-        <Cart />
+        <CartIcon />
         {/* <Router> */}
           <Routes>
             <Route path="/" element={<Home />} />
@@ -26,7 +26,7 @@ function App() {
           </Routes>
         {/* </Router> */}
       </div>
-    </>
+
   );
 }
 

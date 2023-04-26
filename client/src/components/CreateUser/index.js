@@ -1,15 +1,15 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
 
-const onFinish = (values: any) => {
+const onFinish = (values) => {
     console.log('Success:', values);
 };
 
-const onFinishFailed = (errorInfo: any) => {
+const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
 };
 
-const CreateUser: React.FC = () => (
+const CreateUser = () => (
     <Form
         name="basic"
         labelCol={{ span: 8 }}
@@ -54,3 +54,4 @@ const CreateUser: React.FC = () => (
 );
 
 export default CreateUser;
+

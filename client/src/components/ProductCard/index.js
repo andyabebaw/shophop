@@ -4,23 +4,23 @@ import { Avatar, Card } from 'antd';
 
 const { Meta } = Card;
 
-const ProductCard: React.FC = ({ title, description, src, alt }) => (
+const ProductCard = ({ name, price, src, addToCart }) => (
   <Card
     style={{ width: 300 }}
     cover={
       <img
-        alt= {alt}
-        src= {src}
+        alt={name}
+        src={src}
       />
     }
     actions={[
-      <ShoppingCartOutlined key="addToCart"/>,
+      <ShoppingCartOutlined key="addToCart" onClick={addToCart}/>,
       <InfoCircleOutlined key="info"/>
     ]}
   >
     <Meta
-      title= {title}
-      description={description}
+      title={name}
+      description={`$${price}`}
     />
   </Card>
 );

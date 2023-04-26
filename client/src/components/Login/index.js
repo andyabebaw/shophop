@@ -1,15 +1,15 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
 
-const onFinish = (values: any) => {
+const onFinish = (values) => {
   console.log('Success:', values);
 };
 
-const onFinishFailed = (errorInfo: any) => {
+const onFinishFailed = (errorInfo) => {
   console.log('Failed:', errorInfo);
 };
 
-const LoginBox: React.FC = () => (
+const LoginBox = () => (
   <Form
     name="basic"
     labelCol={{ span: 8 }}

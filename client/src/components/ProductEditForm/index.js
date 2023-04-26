@@ -2,22 +2,22 @@ import React from 'react';
 import { Button, Form, Input, Upload } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
-const onFinish = (values: any) => {
+const onFinish = (values) => {
     console.log('Success:', values);
 };
 
-const onFinishFailed = (errorInfo: any) => {
+const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
 };
 
-const normFile = (e: any) => {
+const normFile = (e) => {
     if (Array.isArray(e)) {
         return e;
     }
     return e?.fileList;
 };
 
-const CreateProduct: React.FC = () => (
+const CreateProduct = () => (
     <Form
         name="basic"
         labelCol={{ span: 8 }}

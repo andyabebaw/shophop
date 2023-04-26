@@ -16,12 +16,13 @@ function ProductItem(item) {
     name,
     _id,
     price,
-    quantity
+    // quantity
   } = item;
 
   const { cart } = state
 
   const addToCart = () => {
+    console.log('click')
     const itemInCart = cart.find((cartItem) => cartItem._id === _id)
     if (itemInCart) {
       dispatch({
@@ -43,25 +44,25 @@ function ProductItem(item) {
   }
 
   return (
-    <ProductCard title={name} description/>
+    <ProductCard name={name} price={price} src={'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'} addToCart={addToCart}/>
   );
 
-  return (
-    <div className="card px-1 py-1">
-      <Link to={`/products/${_id}`}>
-        <img
-          alt={name}
-          src={`/images/${image}`}
-        />
-        <p>{name}</p>
-      </Link>
-      <div>
-        <div>{quantity} {pluralize("item", quantity)} in stock</div>
-        <span>${price}</span>
-      </div>
-      <button onClick={addToCart}>Add to cart</button>
-    </div>
-  );
+  // return (
+  //   <div className="card px-1 py-1">
+  //     <Link to={`/products/${_id}`}>
+  //       <img
+  //         alt={name}
+  //         src={`/images/${image}`}
+  //       />
+  //       <p>{name}</p>
+  //     </Link>
+  //     <div>
+  //       <div>{quantity} {pluralize("item", quantity)} in stock</div>
+  //       <span>${price}</span>
+  //     </div>
+  //     <button onClick={addToCart}>Add to cart</button>
+  //   </div>
+  // );
 }
 
 export default ProductItem;

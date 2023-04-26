@@ -8,10 +8,9 @@ import {
   PlusCircleFilled,
   ContactsFilled
 } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 
-const items: MenuProps['items'] = [
+const items = [
   {
     label: 'Title',
     key: 'title'
@@ -57,10 +56,10 @@ const items: MenuProps['items'] = [
   // },
 ];
 
-const Nav: React.FC = () => {
+const Nav = () => {
   const [current, setCurrent] = useState('mail');
 
-  const onClick: MenuProps['onClick'] = (e) => {
+  const onClick = (e) => {
     console.log('click ', e);
     setCurrent(e.key);
   };
