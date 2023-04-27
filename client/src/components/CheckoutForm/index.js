@@ -1,22 +1,24 @@
 import { Button } from 'antd';
-import Auth from "../../utils/auth";
 import React from "react";
+import { useContext } from "react";
+import { AuthContext } from '../../utils/context/authContext';
 import { ElementsConsumer, CardElement } from "@stripe/react-stripe-js";
 import CardSection from "../CardSection";
 import ProductItem from '../ProductItem';
  
 const cartItem = [];
+   
+const CheckoutForm = () => { 
+    const { user }= useContext(AuthContext); 
+    function totalPrice() {
+        let total = 0;
+        cartItem.forEach((item) => {
+            total += item.price * item.qantity;
+        });
+        return total.toFixed(2);
+      };
 
-function totalPrice() {
-    let total = 0;
-    cartItem.forEach((item) => {
-        total += item.price * item.qantity;
-    });
-    return total.toFixed(2);
-  };
-
-class CheckoutForm extends React.Component {
-  handleSubmit = async event => {
+    const handleSubmit = async(event) => {
     event.preventDefault();
 
     const { stripe, elements } = this.props;
@@ -33,7 +35,6 @@ class CheckoutForm extends React.Component {
     }
   };
 
-  render() {
     return (
       <div>
         <div className="product-info">
@@ -45,12 +46,12 @@ class CheckoutForm extends React.Component {
 
           <strong>Total price: <span className="total_price">${totalPrice()}</span></strong>
         </div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <CardSection />
           {/* <Button type="primary"  htmlType="submit">
             Buy Now
           </Button> */}
-          {Auth.loggedIn() ? (
+          {user ? (
           <Button type="primary" htmlType="submit">
             Buy Now
           </Button>
@@ -61,7 +62,7 @@ class CheckoutForm extends React.Component {
       </div>
     );
   }
-}
+
 
 export default function InjectedCheckoutForm() {
   return (

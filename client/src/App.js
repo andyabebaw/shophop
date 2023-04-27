@@ -10,7 +10,7 @@ import EditProduct from "./pages/EditProduct";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NoMatch from "./pages/NoMatch";
-
+import Cart from "./components/Cart"
 function App() {
   return (
     <div>
@@ -24,6 +24,8 @@ function App() {
         <Route path="/products/:id" element={<Detail />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<NoMatch />} />
+        <Route path="/cart" element={<Cart />} />
+
       </Routes>
     </div>
   );
