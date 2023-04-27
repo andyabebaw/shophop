@@ -1,34 +1,31 @@
 import React from "react";
-import { Route, Routes, Router } from "react-router-dom";
+import { Route, Router, Routes } from "react-router-dom";
 
+import CartIcon from "./components/CartIcon";
 import Nav from "./components/Nav";
+import AddProduct from "./pages/AddProduct";
+import Admin from "./pages/Admin";
 import Detail from "./pages/Detail";
 import EditProduct from "./pages/EditProduct";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NoMatch from "./pages/NoMatch";
-import CartIcon from './components/CartIcon'
-import AddProduct from './pages/AddProduct'
-import Cart from './components/Cart'
+
 function App() {
   return (
-
-      <div>
-        <Nav />
-        <CartIcon />
-        {/* <Router> */}
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/editproduct" element={<EditProduct />} />
-            <Route path="/addproduct" element={<AddProduct />} />
-            <Route path="/products/:id" element={<Detail />} />
-            <Route path="*" element={<NoMatch />} />
-            <Route path="/cart" element={<Cart />} />
-          </Routes>
-        {/* </Router> */}
-      </div>
-
+    <div>
+      <Nav />
+      <CartIcon />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/editproduct" element={<EditProduct />} />
+        <Route path="/addproduct" element={<AddProduct />} />
+        <Route path="/products/:id" element={<Detail />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="*" element={<NoMatch />} />
+      </Routes>
+    </div>
   );
 }
 

@@ -25,7 +25,8 @@ module.exports = {
       // console.log("data: ", data);
     } catch (err) {
       // console.log("===== Error Happened! =====");
-      console.log("error: ", err);
+      // console.log("error: ", err);
+      console.log("invalid token or token expired");
     }
 
     return req;
