@@ -6,4 +6,5 @@ const EditProduct = () => {
   return <CreateProduct />
 }
 
+
 export default EditProduct;

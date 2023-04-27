@@ -1,7 +1,8 @@
 import React from "react";
-import ProductItem from '../components/ProductItem';
+// import ProductItem from '../components/ProductItem';
 import ProductCard from '../components/ProductCard'
 import { Col, Row, Space } from 'antd';
+// import Cart from "../components/Cart";
 
 const Home = () => {
   return (
@@ -30,6 +31,5 @@ const Home = () => {
     </Row>
 
   );
-};
-
+  }
 export default Home;
