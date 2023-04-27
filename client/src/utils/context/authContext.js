@@ -57,7 +57,13 @@ const AuthProvider = (props) => {
 
   return (
     <AuthContext.Provider
-      value={{ user: state.user, login: login, logout: logout }}
+      value={{
+        user: state.user,
+        login: login,
+        logout: logout,
+        state: state,
+        dispatch: dispatch,
+      }}
       {...props}
     />
   );

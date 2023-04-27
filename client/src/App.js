@@ -1,6 +1,6 @@
 import React from "react";
-import { Route, Router, Routes } from "react-router-dom";
-
+import { Route, Routes } from "react-router-dom";
+import Cart from "./components/Cart";
 import CartIcon from "./components/CartIcon";
 import Nav from "./components/Nav";
 import AddProduct from "./pages/AddProduct";
@@ -10,7 +10,7 @@ import EditProduct from "./pages/EditProduct";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NoMatch from "./pages/NoMatch";
-import Cart from "./components/Cart"
+
 function App() {
   return (
     <div>
@@ -22,10 +22,9 @@ function App() {
         <Route path="/editproduct" element={<EditProduct />} />
         <Route path="/addproduct" element={<AddProduct />} />
         <Route path="/products/:id" element={<Detail />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<NoMatch />} />
-        <Route path="/cart" element={<Cart />} />
-
       </Routes>
     </div>
   );

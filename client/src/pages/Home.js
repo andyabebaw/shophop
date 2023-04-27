@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { QUERY_ALL_PRODUCTS, QUERY_CATEGORIES } from "../utils/queries";
 // import ProductItem from '../components/ProductItem';
 import { Col, Row, Space } from "antd";
+import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import { UPDATE_PRODUCT } from "../utils/mutations";
 // import ProductItem from '../components/ProductItem';
@@ -21,13 +22,13 @@ const Home = () => {
     categories: [],
   });
 
-  useEffect(() => {
-    if (data) {
-      console.log(data);
-    }
-    console.log("loading", loading);
-    console.log("product data", data);
-  }, [data, loading]);
+  // useEffect(() => {
+  //   if (data) {
+  //     console.log(data);
+  //   }
+  //   console.log("loading", loading);
+  //   console.log("product data", data);
+  // }, [data, loading]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -67,6 +68,7 @@ const Home = () => {
     try {
       const mutationResponse = await updateProduct({
         variables: {
+          // TODO: change this to the product id you want to update, from the URL param or state
           _id: "6449d6c5e7a3af290a38bbd5",
           product: productData,
         },
@@ -92,18 +94,22 @@ const Home = () => {
       <hr />
       {data?.products
         ?.filter((d) => {
+          const nameMatch = d.name.toLowerCase().includes(search.toLowerCase());
+          const categoryMatch = d.categories.some((category) =>
+            category.name.toLowerCase().includes(search.toLowerCase())
+          );
           return search.toLocaleLowerCase() === ""
             ? d
-            : d.categories.some((category) =>
-                category.name.toLowerCase().includes(search.toLowerCase())
-              );
+            : nameMatch || categoryMatch;
         })
         .map((d) => (
-          <div style={{ border: "1px red solid", color: "blue" }} key={d._id}>
-            <div>{d._id}</div>
-            <div>${d.price}</div>
-            <div>{d.name}</div>
-          </div>
+          <Link to={`/products/${d._id}`} key={d._id}>
+            <div style={{ border: "1px red solid", color: "blue" }}>
+              <div>{d._id}</div>
+              <div>${d.price}</div>
+              <div>{d.name}</div>
+            </div>
+          </Link>
         ))}
       <hr />
       <form onSubmit={handleSubmit}>
