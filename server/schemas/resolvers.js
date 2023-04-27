@@ -109,9 +109,9 @@ const resolvers = {
       }
     },
     addProduct: async (parent, addedProduct, context) => {
-      console.log("====hello from addProduct resolver====");
-      console.log("addedProduct", addedProduct);
-      console.log("context", context.user);
+      // console.log("====hello from addProduct resolver====");
+      // console.log("addedProduct", addedProduct);
+      // console.log("context", context.user);
 
       if (context.user && context.user.isAdmin) {
         // console.log("You are an admin and you are inside addProduct resolver");
