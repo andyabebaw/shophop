@@ -1,7 +1,9 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Router, Routes } from "react-router-dom";
 
+import CartIcon from "./components/CartIcon";
 import Nav from "./components/Nav";
+import AddProduct from "./pages/AddProduct";
 import Admin from "./pages/Admin";
 import Detail from "./pages/Detail";
 import EditProduct from "./pages/EditProduct";
@@ -13,12 +15,14 @@ function App() {
   return (
     <div>
       <Nav />
+      <CartIcon />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/editproduct" element={<EditProduct />} />
+        <Route path="/addproduct" element={<AddProduct />} />
         <Route path="/products/:id" element={<Detail />} />
-        <Route path="/Admin" element={<Admin />} />
-        <Route path="/EditProduct" element={<EditProduct />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<NoMatch />} />
       </Routes>
     </div>

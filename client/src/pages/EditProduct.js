@@ -1,7 +1,9 @@
 import React from "react";
+import { Button } from 'antd';
+import CreateProduct from "../components/ProductEditForm";
 
 const EditProduct = () => {
-  return <div>EditProduct</div>;
-};
+  return <CreateProduct />
+}
 
 export default EditProduct;
