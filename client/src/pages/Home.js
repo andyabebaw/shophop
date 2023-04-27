@@ -4,6 +4,7 @@ import { QUERY_ALL_PRODUCTS, QUERY_CATEGORIES } from "../utils/queries";
 // import ProductItem from '../components/ProductItem';
 import { Col, Row, Space } from "antd";
 import ProductCard from "../components/ProductCard";
+// import ProductItem from '../components/ProductItem';
 // import Cart from "../components/Cart";
 
 const Home = () => {
@@ -109,5 +110,4 @@ const Home = () => {
     </Row>
   );
 };
-
 export default Home;
