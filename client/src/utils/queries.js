@@ -49,7 +49,7 @@ export const QUERY_PRODUCTS_ByCategoryName = gql`
       price
       quantity
       image
-      category {
+      categories {
         _id
         name
       }
@@ -70,7 +70,7 @@ export const QUERY_PRODUCTS = gql`
       price
       quantity
       image
-      category {
+      categories {
         _id
       }
     }
