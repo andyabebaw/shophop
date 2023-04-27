@@ -1,13 +1,10 @@
 import React from "react";
+import { Button } from 'antd';
+import CreateProduct from "../components/ProductEditForm";
 
 const EditProduct = () => {
-  return <div>
-      <p> Edit Product </p>
-      <form className="form">
-      </form>
+  return <CreateProduct />
+}
 
-  </div>;
-
-};
 
 export default EditProduct;
