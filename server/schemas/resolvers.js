@@ -19,7 +19,7 @@ const resolvers = {
       return await Category.find();
     },
     products: async (parent, { categoryName, name }) => {
-      console.log("entered query products resolver");
+      // console.log("entered query products resolver");
       const params = {};
 
       if (categoryName) {
@@ -207,6 +207,7 @@ const resolvers = {
       throw new AuthenticationError("Forbidden, You are not an admin");
     },
     updateProduct: async (parent, { _id, product }, context) => {
+      console.log("entered mutation updateProduct resolver");
       if (context.user.isAdmin) {
         // const product = await Product.findByIdAndUpdate(
         //   updateProduct._id,
