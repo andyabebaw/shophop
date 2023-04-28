@@ -145,49 +145,34 @@ const resolvers = {
       }
     },
     addProduct: async (parent, addedProduct, context) => {
-      // console.log("====hello from addProduct resolver====");
-      // console.log("addedProduct", addedProduct);
-      // console.log("context", context.user);
-
       if (context.user && context.user.isAdmin) {
-        // console.log("You are an admin and you are inside addProduct resolver");
-        // console.table(addedProduct.product.categories);
-
-        const { categories, ...otherDatas } = addedProduct.product;
-
-        // console.log("🚀 newProduct", newProduct);
-        // const productDoc = await Product.create(newProduct.product);
-        // const product = await Product.findOne({ _id: productDoc._id })
-        //   .populate("categories", "name")
-        //   .exec();
-        // return product;
+        const { categories = [], ...otherDatas } = addedProduct.product;
 
         const categoryIds = [];
-        // Save categories to the database first
-        const savedCategories = await Promise.all(
-          categories.map(async (category) => {
-            const categoryName = category.toLowerCase();
-            const existingCategory = await Category.findOne({
-              name: categoryName,
-            });
 
-            // Category already exists in the database
-            if (existingCategory) {
-              // return existingCategory;
-              categoryIds.push(existingCategory._id);
-            }
-            // Else Create a new category
-            else {
-              // const newCategory = new Category({ name: category });
-              // return newCategory.save();
-              const newCategory = new Category({ name: category });
-              const savedCategory = await newCategory.save();
-              categoryIds.push(savedCategory._id);
-            }
-          })
-        );
+        // Save categories to the database only if there are any
+        if (categories.length > 0) {
+          const savedCategories = await Promise.all(
+            categories.map(async (category) => {
+              const categoryName = category.toLowerCase();
+              const existingCategory = await Category.findOne({
+                name: categoryName,
+              });
 
-        // Create the product
+              // Category already exists in the database
+              if (existingCategory) {
+                categoryIds.push(existingCategory._id);
+              }
+              // Else Create a new category
+              else {
+                const newCategory = new Category({ name: category });
+                const savedCategory = await newCategory.save();
+                categoryIds.push(savedCategory._id);
+              }
+            })
+          );
+        }
+
         const product = new Product({
           ...otherDatas,
           categories: categoryIds,
