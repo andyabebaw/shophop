@@ -72,13 +72,19 @@ function Detail() {
     window.location.href = `/edit/${productId}`;
   };
 
+  const addToCart = () => {
+    // TODO: Add to cart, implement this later, after we have the cart page, update to UI, etc.
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
     <div>
-      <button type="button">Add to cart</button>
+      <button type="button" onClick={addToCart}>
+        Add to cart
+      </button>
       {userState.user.data.isAdmin && (
         <button type="button" onClick={redirectToEditPage}>
           Edit (only for admin)
