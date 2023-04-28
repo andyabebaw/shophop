@@ -19,8 +19,9 @@ function Detail() {
   const product = data?.product || {};
 
   useEffect(() => {
-    console.log("product", product);
-    console.log("productState", productState);
+    // console.log("product", product);
+    // console.log("productState", productState);
+    console.log("userState", userState);
 
     if (
       data &&
@@ -67,12 +68,23 @@ function Detail() {
     }
   };
 
+  const redirectToEditPage = () => {
+    window.location.href = `/edit/${productId}`;
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
     <div>
+      <button type="button">Add to cart</button>
+      {userState.user.data.isAdmin && (
+        <button type="button" onClick={redirectToEditPage}>
+          Edit (only for admin)
+        </button>
+      )}
+      <hr />
       <h1>{product.name}</h1>
       <p>{product.description}</p>
       <p>Price: ${product.price}</p>
