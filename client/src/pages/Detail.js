@@ -85,7 +85,7 @@ function Detail() {
       <button type="button" onClick={addToCart}>
         Add to cart
       </button>
-      {userState.user.data.isAdmin && (
+      {userState.user?.data.isAdmin && (
         <button type="button" onClick={redirectToEditPage}>
           Edit (only for admin)
         </button>
