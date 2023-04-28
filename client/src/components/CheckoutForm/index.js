@@ -48,9 +48,6 @@ const CheckoutForm = () => {
         </div>
         <form onSubmit={handleSubmit}>
           <CardSection />
-          {/* <Button type="primary"  htmlType="submit">
-            Buy Now
-          </Button> */}
           {user ? (
           <Button type="primary" htmlType="submit">
             Buy Now
