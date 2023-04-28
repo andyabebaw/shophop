@@ -40,16 +40,16 @@ export const QUERY_ALL_PRODUCTS = gql`
   }
 `;
 
-export const QUERY_PRODUCTS_ByCategoryName = gql`
-  query GetProductsByCategoryName($categoryName: String) {
-    products(categoryName: $categoryName) {
+export const QUERY_PRODUCT_ById = gql`
+  query getProductById($id: ID!) {
+    product(_id: $id) {
       _id
       name
       description
-      price
-      quantity
       image
-      category {
+      quantity
+      price
+      categories {
         _id
         name
       }
@@ -61,6 +61,29 @@ export const QUERY_PRODUCTS_ByCategoryName = gql`
     }
   }
 `;
+
+export const QUERY_PRODUCTS_ByCategoryName = gql`
+  query GetProductsByCategoryName($categoryName: String) {
+    products(categoryName: $categoryName) {
+      _id
+      name
+      description
+      price
+      quantity
+      image
+      categories {
+        _id
+        name
+      }
+      reviews {
+        _id
+        reviewBody
+        userId
+      }
+    }
+  }
+`;
+
 export const QUERY_PRODUCTS = gql`
   query getProducts($category: ID) {
     products(category: $category) {
@@ -70,7 +93,7 @@ export const QUERY_PRODUCTS = gql`
       price
       quantity
       image
-      category {
+      categories {
         _id
       }
     }

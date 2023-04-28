@@ -1,4 +1,4 @@
-form {
+/* form {
     display: grid;
     grid-auto-rows: min-content;
     gap: 10px;
@@ -48,4 +48,4 @@ button[type="button"] {
 button[type="button"]:hover,
 button[type="submit"]:hover {
     opacity: 0.8;
-}
+} */
