@@ -5,9 +5,10 @@ import { AuthContext } from "../utils/context/authContext";
 import { ProductContext } from "../utils/context/productContext";
 import { UPDATE_PRODUCT_REVIEWS } from "../utils/mutations";
 import { QUERY_PRODUCT_ById } from "../utils/queries";
-import { Breadcrumb, Layout, Menu, theme, Typography, Divider, Button, Form, Input } from 'antd';
+import { Breadcrumb, Layout, Menu, theme, Typography, Divider, Button, Form, Input, Card } from 'antd';
 import { ShoppingCartOutlined } from "@ant-design/icons";
 const { Title, Text } = Typography;
+
 
 function Detail() {
   const { Header, Content, Footer } = Layout;
@@ -21,50 +22,53 @@ function Detail() {
     variables: { id: productId },
   });
   const product = data?.product || {};
+  const [form] = Form.useForm();
 
-  // useEffect(() => {
-  //   // console.log("product", product);
-  //   // console.log("productState", productState);
-  //   console.log("userState", userState);
+  useEffect(() => {
+    // console.log("product", product);
+    // console.log("productState", productState);
+    console.log("userState", userState);
 
-  //   if (
-  //     data &&
-  //     productState.currentProductId === productId &&
-  //     productState.reviews &&
-  //     productState.reviews.length === 0 &&
-  //     data.product.reviews && // check if reviews exists
-  //     data.product.reviews.length > 0 // check if there are any reviews
-  //   ) {
-  //     productDispatch({
-  //       type: "SET_REVIEWS",
-  //       payload: data.product.reviews.map((review) => review.reviewBody),
-  //     });
-  //   }
-  //   productDispatch({
-  //     type: "SET_CURRENT_PRODUCT_ID",
-  //     payload: productId,
-  //   });
-  // }, [productState.reviews, data, productId]);
+    if (
+      data &&
+      productState.currentProductId === productId &&
+      productState.reviews &&
+      productState.reviews.length === 0 &&
+      data.product.reviews && // check if reviews exists
+      data.product.reviews.length > 0 // check if there are any reviews
+    ) {
+      productDispatch({
+        type: "SET_REVIEWS",
+        payload: data.product.reviews.map((review) => review.reviewBody),
+      });
+    }
+    productDispatch({
+      type: "SET_CURRENT_PRODUCT_ID",
+      payload: productId,
+    });
+  }, [productState.reviews, data, productId]);
 
-  // useEffect(() => {
-  //   return () => {
-  //     productDispatch({ type: "CLEAR_REVIEWS" });
-  //   };
-  // }, [productDispatch]);
+  useEffect(() => {
+    return () => {
+      productDispatch({ type: "CLEAR_REVIEWS" });
+    };
+  }, [productDispatch]);
 
   const dispatchReview = async (values) => {
+
     productDispatch({
       type: "UPDATE_PRODUCT_REVIEW",
-      payload: values,
+      payload: values.review,
     });
     // Side effect to update the database
     const mutationResponse = await updateProductReviews({
       variables: {
         productId: productId,
-        reviewBody: values,
+        reviewBody: values.review,
       },
     });
     console.log("mutationResponse", mutationResponse);
+
     // inputRef.current.value = "";
   };
 
@@ -79,7 +83,6 @@ function Detail() {
   return (
     <div>
       <Content style={{ padding: '0 50px' }}>
-
         <Title>{product.name}</Title>
         <Text type="secondary">{product.description}</Text>
         <Divider />
@@ -95,10 +98,16 @@ function Detail() {
         <Divider />
         {userState.user && (
           <Form
+            form={form}
             name="basic"
-            onFinish={(values) => dispatchReview(values)}
-            style={{ maxWidth: 600}}
+            onFinish={(values) => {
+              dispatchReview(values);
+              form.resetFields();
+            }}
+            style={{ maxWidth: 600 }}
             labelCol={{ span: 8 }}
+            initialValues={{ review: "" }}
+
           >
             <Form.Item
               name="review"
@@ -110,29 +119,30 @@ function Detail() {
               Add My Review
             </Button>
           </Form>
-
-
-          // <input
-          //   id="my-input"
-          //   type="text"
-          //   placeholder="Add a review"
-          //   ref={inputRef}
-          //   onKeyDown={handleKeyDown}
-          // />
         )}
         <Divider />
         <Title level={4}>
           Reviews:
-          {productState.reviews?.map((review, idx) => {
-            return <div key={idx}>{review}</div>;
-          })}
         </Title>
+
+        {productState.reviews?.map((review, idx) => {
+          return (
+            <Card
+              style={{
+                width: 600,
+                height: 100
+              }}
+            >
+              <p key={idx}>{review}</p>
+            </Card>);
+        })}
+
         <Divider />
-        {/* <Text>Associated Cateogires:
+        <Text>Associated Cateogires:
           {product.categories?.map((tag) => {
             return <div>{tag.name}</div>;
           })}
-        </Text> */}
+        </Text>
       </Content>
     </div>
   );
