@@ -4,7 +4,6 @@ import Cart from "./components/Cart";
 import CartIcon from "./components/CartIcon";
 import Nav from "./components/Nav";
 import AddProduct from "./pages/AddProduct";
-import Admin from "./pages/Admin";
 import Detail from "./pages/Detail";
 import Edit from "./pages/Edit";
 import EditProduct from "./pages/EditProduct";
@@ -25,7 +24,6 @@ function App() {
         <Route path="/addproduct" element={<AddProduct />} />
         <Route path="/products/:id" element={<Detail />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<NoMatch />} />
       </Routes>
     </div>
