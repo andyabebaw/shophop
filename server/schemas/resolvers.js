@@ -64,6 +64,7 @@ const resolvers = {
           price: price.id,
           quantity: 1,
         });
+        console.log(line_items);
       }
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],

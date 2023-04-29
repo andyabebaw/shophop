@@ -5,10 +5,19 @@ import { Form, Input, Button, Upload, InputNumber, Space } from 'antd';
 import {
     PlusOutlined
 } from "@ant-design/icons";
+import { CloudConfig, URLConfig, CloudinaryImage} from "@cloudinary/url-gen";
+import { AdvancedImage } from '@cloudinary/react';
 
 const AddProduct = () => {
 
     const [addProduct] = useMutation(ADD_PRODUCT);
+    let cloudConfig = new CloudConfig({cloudName: 'dtiagztwn'})
+    let urlConfig = new URLConfig({secure: true});
+    let myImage = new CloudinaryImage(cloudConfig, urlConfig);
+    
+    // myImage.resize(fill().width(200).height(250));
+    // const [ image, setmyImage] = useState("")
+    // const [ url, setUrl ] = useState("");
 
     const handleSubmit = async (values) => {
         console.log("productData in the form", values);
@@ -28,10 +37,37 @@ const AddProduct = () => {
     };
 
     const normFile = (e) => {
+        // const uploadImage = () => { 
+            const files = document.querySelector("[type=file]").files
+      
+            const formData = new FormData();
+           for (let i = 0; i < files.length; i++) {
+            let file = files[i];
+            formData.append("file", file);
+            formData.append("upload_preset", "tkj0bcs9")
+            formData.append("cloud_name", "dtiagztwn")
+      
+            fetch("https://api.cloudinary.com/v1_1/dtiagztwn/image/upload", 
+            {
+                method: 'POST',
+                body: formData,
+            })
+            .then((response) =>{
+              return response.json();
+            })
+            .then(data => {
+              console.log(data);
+              let imageUrl = data.url;
+              console.log(imageUrl);
+            })
+          }
+      
+        //   }
         if (Array.isArray(e)) {
             return e;
         }
         return e?.fileList;
+        
     };
 
     const onFinishFailed = (values) => {
@@ -82,6 +118,7 @@ const AddProduct = () => {
                     <Upload action="/upload.do" listType="picture-card">
                         <div>
                             <PlusOutlined />
+                            <AdvancedImage cldImg={myImage} />
                             <div style={{ marginTop: 8 }}>Upload</div>
                         </div>
                     </Upload>
