@@ -1,10 +1,10 @@
 import { useMutation } from "@apollo/client";
-import { useState } from "react";
 import { ADD_PRODUCT } from "../utils/mutations";
 import { Form, Input, Button, Upload, InputNumber, Space } from 'antd';
 import {
     PlusOutlined
 } from "@ant-design/icons";
+import ProductDropDown from "../components/ProductDropDown";
 
 const AddProduct = () => {
 
@@ -44,6 +44,10 @@ const AddProduct = () => {
     }
 
     return (
+        <div >
+            <div style = {{padding: "40px"}}>
+            <ProductDropDown ></ProductDropDown>
+            </div>
             <Form
                 name="basic"
                 labelCol={{ span: 8 }}
@@ -115,6 +119,7 @@ const AddProduct = () => {
                     </Button>
                 </Form.Item>
             </Form>
+        </div>
     )
 };
 
