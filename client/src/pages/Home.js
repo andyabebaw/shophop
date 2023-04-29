@@ -2,9 +2,9 @@ import { useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { QUERY_ALL_PRODUCTS, QUERY_CATEGORIES } from "../utils/queries";
 // import ProductItem from '../components/ProductItem';
-import { Col, Row, Space } from "antd";
+// import { Col, Row, Space } from "antd";
 import { Link } from "react-router-dom";
-import ProductCard from "../components/ProductCard";
+// import ProductCard from "../components/ProductCard";
 import { UPDATE_PRODUCT } from "../utils/mutations";
 // import ProductItem from '../components/ProductItem';
 // import Cart from "../components/Cart";
@@ -108,6 +108,8 @@ const Home = () => {
               <div>{d._id}</div>
               <div>${d.price}</div>
               <div>{d.name}</div>
+              <div>{d.image}</div>
+
             </div>
           </Link>
         ))}
@@ -155,7 +157,7 @@ const Home = () => {
         <div>
           <label htmlFor="image">Image:</label>
           <input
-            type="text"
+            type="file"
             id="image"
             name="image"
             value={productData.image}

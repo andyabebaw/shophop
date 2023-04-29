@@ -33,6 +33,7 @@ const CheckoutForm = () => {
     } else {
       console.log(result.token);
     }
+    console.log("click event from stripe")
   };
 
     return (

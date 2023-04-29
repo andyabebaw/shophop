@@ -46,7 +46,7 @@ const resolvers = {
       const line_items = [];
 
       const { products } = await order.populate("products");
-
+     console.log("teest fore stripe");
       for (let i = 0; i < products.length; i++) {
         const product = await stripe.products.create({
           name: products[i].name,

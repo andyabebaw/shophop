@@ -28,8 +28,7 @@ const productSchema = new Schema(
     categories: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Category",
-        unique: true,
+        ref: "Category"
       },
     ],
     reviews: [Review],
