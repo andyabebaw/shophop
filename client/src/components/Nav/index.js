@@ -101,15 +101,14 @@ const items = [
     icon: <ThunderboltOutlined />,
     children: [
       {
-        label: "Add/Edit Products",
+        label: (
+          <a href="/addproduct" rel="noopener noreferrer">
+            Add/Edit Products
+          </a>
+        ),
         key: "setting:1",
         icon: <PlusCircleFilled />,
-      },
-      {
-        label: "Edit Profile",
-        key: "setting:2",
-        icon: <ContactsFilled />,
-      },
+      }
     ],
   },
   {
@@ -118,7 +117,11 @@ const items = [
     icon: <UserOutlined />,
   },
   {
-    label: "Login",
+    label: (
+      <a href="/login" rel="noopener noreferrer">
+        Login
+      </a>
+    ),
     key: "login",
     icon: <LoginOutlined />,
   },
