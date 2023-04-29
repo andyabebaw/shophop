@@ -4,8 +4,8 @@ import Cart from "./components/Cart";
 import CartIcon from "./components/CartIcon";
 import Nav from "./components/Nav";
 import AddProduct from "./pages/AddProduct";
-import Admin from "./pages/Admin";
 import Detail from "./pages/Detail";
+import Edit from "./pages/Edit";
 import EditProduct from "./pages/EditProduct";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -20,10 +20,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/editproduct" element={<EditProduct />} />
+        <Route path="/edit/:id" element={<Edit />} />
         <Route path="/addproduct" element={<AddProduct />} />
         <Route path="/products/:id" element={<Detail />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<NoMatch />} />
       </Routes>
     </div>

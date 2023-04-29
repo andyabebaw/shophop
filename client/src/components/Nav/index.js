@@ -2,7 +2,6 @@ import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../utils/context/authContext";
 import "./nav.css";
-
 import {
   ContactsFilled,
   LoginOutlined,
@@ -12,7 +11,7 @@ import {
   ThunderboltOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Input, Divider } from "antd";
 import React, { useState } from "react";
 
 const Navbar = () => {
@@ -20,31 +19,25 @@ const Navbar = () => {
 
   const onClick = (e) => {
     console.log("click ", e);
-    setCurrent(e.key);
+    // setCurrent(e.key);
+    if (e.key === 'logout') {
+      handleLogout()
+    }
   };
 
-  return (
-    <Layout>
-      <Menu
-        style={style}
-        onClick={onClick}
-        selectedKeys={[current]}
-        mode="horizontal"
-        items={items}
-      />
-    </Layout>
-  );
-  // const { user, logout } = useContext(AuthContext);
-  // const navigate = useNavigate();
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  // const handleLogout = () => {
-  //   logout();
-  //   navigate("/");
-  // };
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
-  // useEffect(() => {
-  //   console.log("user", user);
-  // }, [user]);
+  useEffect(() => {
+    console.log("user", user);
+  }, [user]);
+
+  const { Search } = Input;
 
   // return (
   //   <nav>
@@ -82,56 +75,96 @@ const Navbar = () => {
   //     </div>
   //   </nav>
   // );
-};
 
-const style = {
-  position: "relative",
-  display: "flex",
-  justifyContent: "right",
-};
+  const style = {
+    position: "relative",
+    display: "flex",
+    justifyContent: "right",
+    alignItems: "flex-end"
+  };
 
-const items = [
-  // {
-  //   label: 'Title',
-  //   key: 'title'
-  // },
-  {
-    label: "Admin Options",
-    key: "SubMenu",
-    icon: <ThunderboltOutlined />,
-    children: [
+  let items;
+
+  const onSearch = (value) => console.log(value);
+
+  if (user?.data.isAdmin) {
+    items = [
       {
-        label: "Add/Edit Products",
-        key: "setting:1",
-        icon: <PlusCircleFilled />,
+        label: "Admin Options",
+        key: "SubMenu",
+        icon: <ThunderboltOutlined />,
+        children: [
+          {
+            label: (
+              <a href="/addproduct" rel="noopener noreferrer">
+                Add/Edit Products
+              </a>
+            ),
+            key: "addproduct",
+            icon: <PlusCircleFilled />,
+          }
+        ],
       },
       {
-        label: "Edit Profile",
-        key: "setting:2",
-        icon: <ContactsFilled />,
+        label: <Divider type='vertical'/>,
+        disabled: true,
+        style: { cursor: 'auto'}
+
       },
-    ],
-  },
-  {
-    label: "Edit Profile",
-    key: "edit profile",
-    icon: <UserOutlined />,
-  },
-  {
-    label: "Login",
-    key: "login",
-    icon: <LoginOutlined />,
-  },
-  {
-    label: "Logout",
-    key: "logout",
-    icon: <LogoutOutlined />,
-  },
-  // {
-  //   label: 'Cart',
-  //   key: 'cart',
-  //   icon: <ShoppingCartOutlined />,
-  // },
-];
+      {
+        label: "Logout",
+        key: "logout",
+        icon: <LogoutOutlined />,
+
+      }
+    ]
+  } else if (user === null) {
+    items = [
+      // {
+      //   label: <Search
+      //     placeholder="input search text"
+      //     onSearch={onSearch}
+      //     style={{
+      //       width: 200,
+      //     }}
+      //   />,
+      //   disabled: true,
+      //   style: { cursor: 'auto', justifySelf:'center' }
+      // },
+      {
+        label: (
+          <a href="/login" rel="noopener noreferrer">
+            Login
+          </a>
+        ),
+        key: "login",
+        icon: <LoginOutlined />,
+      }]
+  } else if (!user?.data.isAdmin) {
+    items = [
+      {
+        label: "Logout",
+        key: "logout",
+        icon: <LogoutOutlined />,
+
+      }
+    ]
+  }
+
+  return (
+    <Layout>
+
+      <Menu
+        style={style}
+        onClick={onClick}
+        selectedKeys={[current]}
+        mode="horizontal"
+        items={items}
+      />
+    </Layout>
+  );
+};
+
+
 
 export default Navbar;
