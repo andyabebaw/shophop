@@ -48,8 +48,7 @@ const Home = () => {
               : nameMatch || categoryMatch;
           })
           .map((d) => (
-            // <Link to={`/products/${d._id}`} key={d._id}>
-            <Col span={6} >
+            <Col span={6} key={d._id}>
               <ProductCard
                 name={d.name}
                 price={d.price}
@@ -64,79 +63,5 @@ const Home = () => {
     </>
   );
 
-  // return (
-  //   <Row gutter={[16, 32]} justify={"center"}>
-  //     <Col span={6}>
-  //       <ProductCard
-  //         name="hi"
-  //         price={22}
-  //         image={
-  //           "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-  //         }
-  //         _id={1}
-  //       />
-  //     </Col>
-  //     <Col span={6}>
-  //       <ProductCard
-  //         name="hi"
-  //         price={22}
-  //         image={
-  //           "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-  //         }
-  //         _id={1}
-  //       />
-  //     </Col>
-  //     <Col span={6}>
-  //       <ProductCard
-  //         name="hi"
-  //         price={22}
-  //         image={
-  //           "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-  //         }
-  //         _id={1}
-  //       />
-  //     </Col>
-  //     <Col span={6}>
-  //       <ProductCard
-  //         name="hi"
-  //         price={22}
-  //         image={
-  //           "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-  //         }
-  //         _id={1}
-  //       />
-  //     </Col>
-  //     <Col span={6}>
-  //       <ProductCard
-  //         name="hi"
-  //         price={22}
-  //         image={
-  //           "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-  //         }
-  //         _id={1}
-  //       />
-  //     </Col>
-  //     <Col span={6}>
-  //       <ProductCard
-  //         name="hi"
-  //         price={22}
-  //         image={
-  //           "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-  //         }
-  //         _id={1}
-  //       />
-  //     </Col>
-  //     <Col span={6}>
-  //       <ProductCard
-  //         name="hi"
-  //         price={22}
-  //         image={
-  //           "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-  //         }
-  //         _id={1}
-  //       />
-  //     </Col>
-  //   </Row>
-  // );
 };
 export default Home;

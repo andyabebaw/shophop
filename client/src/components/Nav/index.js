@@ -1,15 +1,12 @@
 import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../utils/context/authContext";
-import "./nav.css";
 import {
-  ContactsFilled,
   LoginOutlined,
   LogoutOutlined,
   PlusCircleFilled,
-  ShoppingCartOutlined,
   ThunderboltOutlined,
-  UserOutlined,
+  HomeOutlined
 } from "@ant-design/icons";
 import { Layout, Menu, Input, Divider } from "antd";
 import React, { useState } from "react";
@@ -90,6 +87,21 @@ const Navbar = () => {
   if (user?.data.isAdmin) {
     items = [
       {
+        label: (
+          <a href="/" rel="noopener noreferrer">
+            Home
+          </a>
+        ),
+        key: "home",
+        icon: <HomeOutlined />,
+      },
+      {
+        label: <Divider type='vertical'/>,
+        disabled: true,
+        style: { cursor: 'auto'}
+
+      },
+      {
         label: "Admin Options",
         key: "SubMenu",
         icon: <ThunderboltOutlined />,
@@ -120,17 +132,21 @@ const Navbar = () => {
     ]
   } else if (user === null) {
     items = [
-      // {
-      //   label: <Search
-      //     placeholder="input search text"
-      //     onSearch={onSearch}
-      //     style={{
-      //       width: 200,
-      //     }}
-      //   />,
-      //   disabled: true,
-      //   style: { cursor: 'auto', justifySelf:'center' }
-      // },
+      {
+        label: (
+          <a href="/" rel="noopener noreferrer">
+            Home
+          </a>
+        ),
+        key: "home",
+        icon: <HomeOutlined />,
+      },
+      {
+        label: <Divider type='vertical'/>,
+        disabled: true,
+        style: { cursor: 'auto'}
+
+      },
       {
         label: (
           <a href="/login" rel="noopener noreferrer">
@@ -142,6 +158,21 @@ const Navbar = () => {
       }]
   } else if (!user?.data.isAdmin) {
     items = [
+      {
+        label: (
+          <a href="/" rel="noopener noreferrer">
+            Home
+          </a>
+        ),
+        key: "home",
+        icon: <HomeOutlined />,
+      },
+      {
+        label: <Divider type='vertical'/>,
+        disabled: true,
+        style: { cursor: 'auto'}
+
+      },
       {
         label: "Logout",
         key: "logout",
