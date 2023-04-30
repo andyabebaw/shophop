@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { ADD_TO_CART, REMOVE_FROM_CART, ADD_MULTIPLE_TO_CART, UPDATE_CART_QUANTITY } from './actions';
+import { ADD_TO_CART, REMOVE_FROM_CART, ADD_MULTIPLE_TO_CART, TOGGLE_CART, UPDATE_CART_QUANTITY } from './actions';
 
 
 export const reducer = (state, action) => {
