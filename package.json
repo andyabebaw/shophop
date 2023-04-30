@@ -23,5 +23,8 @@
   "devDependencies": {
     "concurrently": "^5.1.0"
   },
-  "homepage": "https://github.com/harryhamlin/shophop#readme"
+  "homepage": "https://github.com/harryhamlin/shophop#readme",
+  "dependencies": {
+    "@harryhamlin/readme-generator": "^1.0.4"
+  }
 }

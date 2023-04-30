@@ -56,7 +56,7 @@ const AddProduct = (props) => {
     const handleImageSubmit = async (event) => {
         imageUpload.image = logo;
         await upload(logo)
-        return upload
+        return upload(logo)
     }
 
     const onFinishFailed = (values) => {
@@ -86,6 +86,7 @@ const AddProduct = (props) => {
                 onFinish={async (values) => {
                     const imageUrl = await handleImageSubmit()
                     if (imageUrl !== "") {
+                        console.log(imageUrl)
                         values.image = imageUrl;
                         handleSubmit(values);
                         onFinish(values)
