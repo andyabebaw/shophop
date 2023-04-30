@@ -54,7 +54,7 @@ const Home = () => {
                 name={d.name}
                 price={d.price}
                 image={
-                  "https://res.cloudinary.com/dbnrnwpje/image/upload/v1682877240/ueggf59pd4xezs6qe4xm.jpg"
+                  d.image
                 }
                 _id={d._id}
               />
