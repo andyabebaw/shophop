@@ -180,7 +180,7 @@ const onFinish = (values) => {
         wrapperCol={{ span: 16 }}
         style={{ maxWidth: 600 }}
         initialValues={{
-          categories: product.categories,
+          categories: product.categories || [],
           image: "",
           price: product.price,
           quantity: product.quantity,
@@ -190,6 +190,7 @@ const onFinish = (values) => {
         onFinish={(values) => {
           handleSubmit(values)
           onFinish(values)
+          console.log(values)
         }}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
