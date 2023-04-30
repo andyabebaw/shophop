@@ -11,12 +11,14 @@ const Uploader = (props) => {
         URL.revokeObjectURL(image && props.image);
         inputFileRef.current.value = null;
     };
+
     const setImage = (newImage) => {
         if (image) {
             cleanup()
         }
         _setImage(newImage)
     };
+
     const handleOnChange = (event) => {
         const newImage = event.target.files[0];
         if (newImage) {
@@ -26,19 +28,8 @@ const Uploader = (props) => {
     }
 
     return (
-        // <div>
-        //     <input
-        //         ref={inputFileRef}
-        //         accept='image/*'
-        //         id="image-upload"
-        //         type="file"
-        //         onChange={handleOnChange}
-        //     />
-
-        // </div>
-
         <Form.Item label="Image" name="image"  onChange={handleOnChange}>
-            <Upload listType="picture-card" ref={inputFileRef}>
+            <Upload maxCount={1} listType="picture-card" ref={inputFileRef}>
                 <div>
                     <PlusOutlined />
                     <div style={{ marginTop: 8 }}>Upload</div>

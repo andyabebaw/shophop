@@ -1,21 +1,10 @@
 import { useMutation } from "@apollo/client";
 import { ADD_PRODUCT } from "../utils/mutations";
-import React, { useState, createRef } from "react";
-import { Form, Input, Button, Upload, InputNumber, Space } from 'antd';
-import {
-    PlusOutlined
-} from "@ant-design/icons";
+import React, { useState } from "react";
+import { Form, Input, Button, InputNumber } from 'antd';
 import ProductDropDown from "../components/ProductDropDown";
 import Uploader from '../components/uploader/index';
 import Axios from 'axios';
-// import { v2 as cloudinary } from 'cloudinary';
-// import { Avatar, Button as MuiButton } from "@material-ui/core";
-// import DeleteIcon from '@mui/icons-material/Delete';
-// import UploadIcon from '@mui/icons-material/Upload';
-// import { spacing } from '@material-ui/system';
-// import styled from "styled-components"
-
-
 
 const AddProduct = (props) => {
 
@@ -38,15 +27,6 @@ const AddProduct = (props) => {
         } catch (err) {
             console.error(err);
         }
-    };
-
-
-    const normFile = (e) => {
-        if (Array.isArray(e)) {
-            return e;
-        }
-        console.log()
-        return e?.fileList;
     };
 
     const handleImg = (event) => {
@@ -76,16 +56,8 @@ const AddProduct = (props) => {
     const handleImageSubmit = async (event) => {
         imageUpload.image = logo;
         await upload(logo)
-        return upload(logo)
+        return upload
     }
-
-
-    const [image, _setImage] = useState();
-    const inputFileRef = createRef();
-    const cleanup = () => {
-        URL.revokeObjectURL(image && props.image);
-        inputFileRef.current.value = null;
-    };
 
     const onFinishFailed = (values) => {
         console.log(`did not submit, values: ${values}`)
@@ -114,7 +86,6 @@ const AddProduct = (props) => {
                 onFinish={async (values) => {
                     const imageUrl = await handleImageSubmit()
                     if (imageUrl !== "") {
-                        console.log(imageUrl)
                         values.image = imageUrl;
                         handleSubmit(values);
                         onFinish(values)
@@ -141,15 +112,6 @@ const AddProduct = (props) => {
                 >
                     <Input />
                 </Form.Item>
-
-                {/* <Form.Item label="Image" name="image" getValueFromEvent={normFile}>
-                    <Upload action={(file) => { console.log(file) }} listType="picture-card" >
-                        <div>
-                            <PlusOutlined />
-                            <div style={{ marginTop: 8 }}>Upload</div>
-                        </div>
-                    </Upload>
-                </Form.Item> */}
 
                 <Uploader imageUpload={handleImg} image={imageUpload.image} />
 
@@ -182,9 +144,6 @@ const AddProduct = (props) => {
                     </Button>
                 </Form.Item>
             </Form>
-
-
-            {/* <Button onClick={(e) => handleImageSubmit(e)}> upload</ Button> */}
         </div >
     )
 };
