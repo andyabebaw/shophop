@@ -13,8 +13,6 @@ WHEN the user clicks on 'add to cart' and isn't logged in
 THEN the user is directed to a login/sign up page
 WHEN the user clicks on 'add to cart' and is logged in
 THEN the product is added to the cart
-WHEN the user selects a rating for the product
-THEN that rating is added to the product rating average
 WHEN the user leaves a review
 THEN the user's review is added to the product page
 WHEN the user selects 'view my cart'
