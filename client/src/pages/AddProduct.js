@@ -8,10 +8,7 @@ import {
 import ProductDropDown from "../components/ProductDropDown";
 import Uploader from '../components/uploader/index';
 import Axios from 'axios';
-
 // import { v2 as cloudinary } from 'cloudinary';
-// import * as dotenv from 'dotenv';
-// dotenv.config()
 // import { Avatar, Button as MuiButton } from "@material-ui/core";
 // import DeleteIcon from '@mui/icons-material/Delete';
 // import UploadIcon from '@mui/icons-material/Upload';
@@ -72,12 +69,14 @@ const AddProduct = (props) => {
             formData).then((response) => {
                 data = response.data["secure_url"]
             })
+        console.log(data)
         return data
     }
 
     const handleImageSubmit = async (event) => {
         imageUpload.image = logo;
         await upload(logo)
+        return upload(logo)
     }
 
 
@@ -86,12 +85,6 @@ const AddProduct = (props) => {
     const cleanup = () => {
         URL.revokeObjectURL(image && props.image);
         inputFileRef.current.value = null;
-    };
-    const setImage = (newImage) => {
-        if (image) {
-            cleanup()
-        }
-        _setImage(newImage)
     };
 
     const onFinishFailed = (values) => {
@@ -118,9 +111,16 @@ const AddProduct = (props) => {
                     categories: [],
                     image: ""
                 }}
-                onFinish={(values) => {
-                    handleSubmit(values)
-                    onFinish(values)
+                onFinish={async (values) => {
+                    const imageUrl = await handleImageSubmit()
+                    if (imageUrl !== "") {
+                        console.log(imageUrl)
+                        values.image = imageUrl;
+                        handleSubmit(values);
+                        onFinish(values)
+                    } else {
+                        console.log('didnt work')
+                    }
                 }}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
@@ -150,6 +150,8 @@ const AddProduct = (props) => {
                         </div>
                     </Upload>
                 </Form.Item> */}
+
+                <Uploader imageUpload={handleImg} image={imageUpload.image} />
 
                 <Form.Item
                     label="Quantity"
@@ -181,8 +183,8 @@ const AddProduct = (props) => {
                 </Form.Item>
             </Form>
 
-            <Uploader imageUpload={handleImg} image={imageUpload.image}/>
-            <Button onClick={(e) => handleImageSubmit(e)}> upload</ Button>
+
+            {/* <Button onClick={(e) => handleImageSubmit(e)}> upload</ Button> */}
         </div >
     )
 };

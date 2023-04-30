@@ -1,4 +1,8 @@
 import React, { useState, createRef } from "react";
+import { Form, Upload} from 'antd';
+import {
+    PlusOutlined
+} from "@ant-design/icons";
 
 const Uploader = (props) => {
     const [image, _setImage] = useState();
@@ -22,16 +26,25 @@ const Uploader = (props) => {
     }
 
     return (
-        <div>
-            <input
-                ref={inputFileRef}
-                accept='image/*'
-                id="image-upload"
-                type="file"
-                onChange={handleOnChange}
-            />
-            
-        </div>
+        // <div>
+        //     <input
+        //         ref={inputFileRef}
+        //         accept='image/*'
+        //         id="image-upload"
+        //         type="file"
+        //         onChange={handleOnChange}
+        //     />
+
+        // </div>
+
+        <Form.Item label="Image" name="image"  onChange={handleOnChange}>
+            <Upload listType="picture-card" ref={inputFileRef}>
+                <div>
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>Upload</div>
+                </div>
+            </Upload>
+        </Form.Item>
     )
 }
 
