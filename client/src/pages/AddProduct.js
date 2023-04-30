@@ -22,7 +22,6 @@ const AddProduct = () => {
 
             console.log(mutationResponse);
         } catch (err) {
-            console.log('this is an error')
             console.error(err);
         }
     };

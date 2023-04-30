@@ -5,8 +5,13 @@ import { AuthContext } from "../utils/context/authContext";
 import { ProductContext } from "../utils/context/productContext";
 import { UPDATE_PRODUCT_REVIEWS } from "../utils/mutations";
 import { QUERY_PRODUCT_ById } from "../utils/queries";
+import { Breadcrumb, Layout, Menu, theme, Typography, Divider, Button, Form, Input, Card } from 'antd';
+import { ShoppingCartOutlined } from "@ant-design/icons";
+const { Title, Text } = Typography;
+
 
 function Detail() {
+  const { Header, Content, Footer } = Layout;
   const { state: productState, dispatch: productDispatch } =
     useContext(ProductContext);
   const { state: userState } = useContext(AuthContext);
@@ -17,6 +22,7 @@ function Detail() {
     variables: { id: productId },
   });
   const product = data?.product || {};
+  const [form] = Form.useForm();
 
   useEffect(() => {
     // console.log("product", product);
@@ -48,28 +54,22 @@ function Detail() {
     };
   }, [productDispatch]);
 
-  const handleKeyDown = async (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
+  const dispatchReview = async (values) => {
 
-      productDispatch({
-        type: "UPDATE_PRODUCT_REVIEW",
-        payload: event.target.value,
-      });
-      // Side effect to update the database
-      const mutationResponse = await updateProductReviews({
-        variables: {
-          productId: productId,
-          reviewBody: event.target.value,
-        },
-      });
-      console.log("mutationResponse", mutationResponse);
-      inputRef.current.value = "";
-    }
-  };
+    productDispatch({
+      type: "UPDATE_PRODUCT_REVIEW",
+      payload: values.review,
+    });
+    // Side effect to update the database
+    const mutationResponse = await updateProductReviews({
+      variables: {
+        productId: productId,
+        reviewBody: values.review,
+      },
+    });
+    console.log("mutationResponse", mutationResponse);
 
-  const redirectToEditPage = () => {
-    window.location.href = `/edit/${productId}`;
+    // inputRef.current.value = "";
   };
 
   const addToCart = () => {
@@ -82,41 +82,87 @@ function Detail() {
 
   return (
     <div>
-      <button type="button" onClick={addToCart}>
-        Add to cart
-      </button>
-      {userState.user?.data.isAdmin && (
-        <button type="button" onClick={redirectToEditPage}>
-          Edit (only for admin)
-        </button>
-      )}
-      <hr />
-      <h1>{product.name}</h1>
-      <p>{product.description}</p>
-      <p>Price: ${product.price}</p>
-      <p>Quantity: {product.quantity}</p>
-      <hr />
-      Category:
-      {product.categories?.map((tag) => {
-        return <div>{tag.name}</div>;
-      })}
-      <hr />
-      Reviews:
-      {productState.reviews?.map((review, idx) => {
-        return <div key={idx}>{review}</div>;
-      })}
-      <hr />
-      {userState.user && (
-        <input
-          id="my-input"
-          type="text"
-          placeholder="Add a review"
-          ref={inputRef}
-          onKeyDown={handleKeyDown}
-        />
-      )}
+      <Content style={{ padding: '0 50px' }}>
+        <Title>{product.name}</Title>
+        <Text type="secondary">{product.description}</Text>
+        <Divider />
+        <Title level={5} type="success">Price: ${product.price}</Title>
+        <Text level={5}>Remaining: {product.quantity}</Text>
+        <Divider />
+        <Button type="default" icon={<ShoppingCartOutlined />} onClick={addToCart} size="Large">Add To Cart</Button>
+        {userState.user?.data.isAdmin && (
+          <Button type="primary" href={`/edit/${productId}`} danger>
+            Edit This Product
+          </Button>
+        )}
+        <Divider />
+        {userState.user && (
+          <Form
+            form={form}
+            name="basic"
+            onFinish={(values) => {
+              dispatchReview(values);
+              form.resetFields();
+            }}
+            style={{ maxWidth: 600 }}
+            labelCol={{ span: 8 }}
+            initialValues={{ review: "" }}
+
+          >
+            <Form.Item
+              name="review"
+              rules={[{ required: true, message: 'Review Required' }]}
+            >
+              <Input placeholder="add my review" />
+            </Form.Item>
+            <Button type="default" htmlType="submit">
+              Add My Review
+            </Button>
+          </Form>
+        )}
+        <Divider />
+        <Title level={4}>
+          Reviews:
+        </Title>
+
+        {productState.reviews?.map((review, idx) => {
+          return (
+            <Card
+              style={{
+                width: 600,
+                height: 100
+              }}
+            >
+              <p key={idx}>{review}</p>
+            </Card>);
+        })}
+
+        <Divider />
+        <Text>Associated Cateogires:
+          {product.categories?.map((tag) => {
+            return <div>{tag.name}</div>;
+          })}
+        </Text>
+      </Content>
     </div>
   );
-}
+};
 
 export default Detail;
+
+
+// .site-layout-content {
+//   min-height: 280px;
+//   padding: 24px;
+// }
+// #components-layout-demo-top .logo {
+//   float: left;
+//   width: 120px;
+//   height: 31px;
+//   margin: 16px 24px 16px 0;
+//   background: rgba(255, 255, 255, 0.3);
+// }
+// .ant-row-rtl #components-layout-demo-top .logo {
+//   float: right;
+//   margin: 16px 0 16px 24px;
+// }
