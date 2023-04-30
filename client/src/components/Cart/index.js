@@ -1,14 +1,12 @@
-// import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js/pure";
+import { loadStripe } from "@stripe/stripe-js";
 import React, { useEffect } from "react";
-// import CheckoutForm from "../CheckoutForm";
-import { AuthContext } from '../../utils/context/authContext';
+import { AuthContext }  from '../../utils/context/authContext';
 import { useContext } from "react";
-import ProductItem from '../ProductItem';
+import CartItem from '../CartItem';
 import { idbPromise } from "../../utils/helpers";
 import { useLazyQuery } from '@apollo/client';
 import { useStoreContext } from '../../utils/GlobalState';
-import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from '../../utils/actions';
+import { ADD_MULTIPLE_TO_CART } from '../../utils/actions';
 import { QUERY_CHECKOUT } from '../../utils/queries';
 
 
@@ -17,7 +15,7 @@ const stripePromise = loadStripe(
 );
 
 const Cart = () => {
-  const [state, dispatch] = useStoreContext("");
+  const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
   const { user }= useContext(AuthContext); 
 
@@ -39,10 +37,6 @@ const Cart = () => {
       getCart();
     }
   }, [state.cart.length, dispatch]);
-
-  function toggleCart() {
-    dispatch({ type: TOGGLE_CART });
-  }
 
   function calculateTotal() {
     let sum = 0;
@@ -66,29 +60,16 @@ const Cart = () => {
     });
   }
 
-  if (!state.cartOpen) {
-    return (
-      <div className="cart-closed" onClick={toggleCart}>
-        <span role="img" aria-label="trash">
-          🛒
-        </span>
-      </div>
-    );
-  }
-
   return (
     <div className="cart">
-      <div className="close" onClick={toggleCart}>
-        [close]
-      </div>
       <h2>Shopping Cart</h2>
       {state.cart.length ? (
         <div>
           {state.cart.map((item) => (
-            <ProductItem key={item._id} item={item} />
+            <CartItem key={item._id} item={item} />
           ))}
 
-          <div className="flex-row space-between">
+          <div>
             <strong>Total: ${calculateTotal()}</strong>
 
             {user.loggedIn() ? (
@@ -99,12 +80,9 @@ const Cart = () => {
           </div>
         </div>
       ) : (
-        <h3>
-          <span role="img" aria-label="shocked">
-            😱
-          </span>
+        <strong>
           You haven't added anything to your cart yet!
-        </h3>
+        </strong>
       )}
     </div>
   );

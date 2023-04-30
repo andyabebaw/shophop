@@ -1,16 +1,57 @@
 import { useMutation } from "@apollo/client";
 import { ADD_PRODUCT } from "../utils/mutations";
-import { Form, Input, Button, Upload, InputNumber, Space } from 'antd';
+import { Form, Input, Button, Upload, InputNumber } from 'antd';
 import {
     PlusOutlined
 } from "@ant-design/icons";
 import { CloudConfig, URLConfig, CloudinaryImage} from "@cloudinary/url-gen";
 import { AdvancedImage } from '@cloudinary/react';
 import ProductDropDown from "../components/ProductDropDown";
+import { useState } from "react";
 
 const AddProduct = () => {
+        const [productData, setProductData] = useState({
+          name: "",
+          description: "",
+          price: 0,
+          image: "",
+          quantity: 0,
+          categories: [],
+        });
+      
+     const [addProduct] = useMutation(ADD_PRODUCT);
 
-    const [addProduct] = useMutation(ADD_PRODUCT);
+     const handleInputChange = (event) => {
+        const { name, value } = event.target;
+    
+        // Convert price to float
+        if (name === "price") {
+          setProductData({ ...productData, [name]: parseFloat(value) });
+        }
+    
+        // Convert quantity to integer
+        else if (name === "quantity") {
+          setProductData({ ...productData, [name]: parseInt(value) });
+        }
+    
+        // For other fields, just set the value as is
+        else {
+          setProductData({ ...productData, [name]: value });
+        }
+      };
+    
+      const handleCategoryInputChange = (event) => {
+        const { value } = event.target;
+        setProductData({
+          ...productData,
+          categories: value.split(",").map((category) => category.trim()),
+        });
+      };
+    
+    //   const handleClearCategories = () => {
+    //     setProductData({ ...productData, categories: [] });
+    //   };
+
     let cloudConfig = new CloudConfig({cloudName: 'dtiagztwn'})
     let urlConfig = new URLConfig({secure: true});
     let myImage = new CloudinaryImage(cloudConfig, urlConfig);
@@ -19,13 +60,13 @@ const AddProduct = () => {
     // const [ image, setmyImage] = useState("")
     // const [ url, setUrl ] = useState("");
 
-    const handleSubmit = async (values) => {
-        console.log("productData in the form", values);
+    const handleSubmit = async () => {
+        console.log("productData in the form", productData);
 
         try {
             const mutationResponse = await addProduct({
                 variables: {
-                    product: values,
+                    product: productData,
                 },
             });
 
@@ -37,7 +78,6 @@ const AddProduct = () => {
     };
 
     const normFile = (e) => {
-        // const uploadImage = () => { 
             const files = document.querySelector("[type=file]").files
       
             const formData = new FormData();
@@ -106,6 +146,8 @@ const AddProduct = () => {
                     label="Product Name"
                     name="name"
                     rules={[{ required: true, message: 'Product name Required' }]}
+                    onChange={handleInputChange}
+
                 >
                     <Input />
                 </Form.Item>
@@ -114,11 +156,15 @@ const AddProduct = () => {
                     label="Product Description"
                     name="description"
                     rules={[{ required: true, message: 'Product Description Required' }]}
+                    onChange={handleInputChange}
+
                 >
                     <Input />
                 </Form.Item>
 
-                <Form.Item label="Image" name="image" getValueFromEvent={normFile}>
+                <Form.Item label="Image" name="image" getValueFromEvent={normFile} 
+                                onChange={handleInputChange}
+                                >
                     <Upload action="/upload.do" listType="picture-card">
                         <div>
                             <PlusOutlined />
@@ -147,6 +193,7 @@ const AddProduct = () => {
                 <Form.Item
                     label="Category"
                     name="categories"
+                   onChange={handleCategoryInputChange}
                 >
                     <Input />
                 </Form.Item>
