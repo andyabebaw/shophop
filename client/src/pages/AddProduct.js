@@ -1,72 +1,25 @@
 import { useMutation } from "@apollo/client";
 import { ADD_PRODUCT } from "../utils/mutations";
-import { Form, Input, Button, Upload, InputNumber } from 'antd';
-import {
-    PlusOutlined
-} from "@ant-design/icons";
-import { CloudConfig, URLConfig, CloudinaryImage} from "@cloudinary/url-gen";
-import { AdvancedImage } from '@cloudinary/react';
+import React, { useState } from "react";
+import { Form, Input, Button, InputNumber } from 'antd';
 import ProductDropDown from "../components/ProductDropDown";
-import { useState } from "react";
+import Uploader from '../components/uploader/index';
+import Axios from 'axios';
 
-const AddProduct = () => {
-        const [productData, setProductData] = useState({
-          name: "",
-          description: "",
-          price: 0,
-          image: "",
-          quantity: 0,
-          categories: [],
-        });
-      
-     const [addProduct] = useMutation(ADD_PRODUCT);
+const AddProduct = (props) => {
 
-     const handleInputChange = (event) => {
-        const { name, value } = event.target;
-    
-        // Convert price to float
-        if (name === "price") {
-          setProductData({ ...productData, [name]: parseFloat(value) });
-        }
-    
-        // Convert quantity to integer
-        else if (name === "quantity") {
-          setProductData({ ...productData, [name]: parseInt(value) });
-        }
-    
-        // For other fields, just set the value as is
-        else {
-          setProductData({ ...productData, [name]: value });
-        }
-      };
-    
-      const handleCategoryInputChange = (event) => {
-        const { value } = event.target;
-        setProductData({
-          ...productData,
-          categories: value.split(",").map((category) => category.trim()),
-        });
-      };
-    
-    //   const handleClearCategories = () => {
-    //     setProductData({ ...productData, categories: [] });
-    //   };
+    const [addProduct] = useMutation(ADD_PRODUCT);
+    const [logo, setLogo] = useState('')
+    const [imageUpload,] = useState({});
+    const [, setImg] = useState({})
 
-    let cloudConfig = new CloudConfig({cloudName: 'dtiagztwn'})
-    let urlConfig = new URLConfig({secure: true});
-    let myImage = new CloudinaryImage(cloudConfig, urlConfig);
-    
-    // myImage.resize(fill().width(200).height(250));
-    // const [ image, setmyImage] = useState("")
-    // const [ url, setUrl ] = useState("");
-
-    const handleSubmit = async () => {
-        console.log("productData in the form", productData);
+    const handleSubmit = async (values) => {
+        console.log("productData in the form", values);
 
         try {
             const mutationResponse = await addProduct({
                 variables: {
-                    product: productData,
+                    product: values,
                 },
             });
 
@@ -76,38 +29,35 @@ const AddProduct = () => {
         }
     };
 
-    const normFile = (e) => {
-            const files = document.querySelector("[type=file]").files
-      
-            const formData = new FormData();
-           for (let i = 0; i < files.length; i++) {
-            let file = files[i];
-            formData.append("file", file);
-            formData.append("upload_preset", "tkj0bcs9")
-            formData.append("cloud_name", "dtiagztwn")
-      
-            fetch("https://api.cloudinary.com/v1_1/dtiagztwn/image/upload", 
-            {
-                method: 'POST',
-                body: formData,
-            })
-            .then((response) =>{
-              return response.json();
-            })
-            .then(data => {
-              console.log(data);
-              let imageUrl = data.url;
-              console.log(imageUrl);
-            })
-          }
-      
-        //   }
-        if (Array.isArray(e)) {
-            return e;
+    const handleImg = (event) => {
+        if (event.target.files[0]) {
+            setImg({
+                src: URL.createObjectURL(event.target.files[0]),
+                alt: event.target.files[0].name
+            });
+            setLogo(event.target.files[0]);
         }
-        return e?.fileList;
-        
-    };
+    }
+
+    const upload = async (file) => {
+        const formData = new FormData()
+        formData.append("file", file)
+        formData.append("upload_preset", "wdksrzb2")
+        let data = "";
+        await Axios.post(
+            "https://api.cloudinary.com/v1_1/dbnrnwpje/image/upload",
+            formData).then((response) => {
+                data = response.data["secure_url"]
+            })
+        console.log(data)
+        return data
+    }
+
+    const handleImageSubmit = async (event) => {
+        imageUpload.image = logo;
+        await upload(logo)
+        return upload
+    }
 
     const onFinishFailed = (values) => {
         console.log(`did not submit, values: ${values}`)
@@ -121,8 +71,8 @@ const AddProduct = () => {
 
     return (
         <div >
-            <div style = {{padding: "40px"}}>
-            <ProductDropDown ></ProductDropDown>
+            <div style={{ padding: "40px" }}>
+                <ProductDropDown ></ProductDropDown>
             </div>
             <Form
                 name="basic"
@@ -133,9 +83,15 @@ const AddProduct = () => {
                     categories: [],
                     image: ""
                 }}
-                onFinish={(values) => {
-                    handleSubmit(values)
-                    onFinish(values)
+                onFinish={async (values) => {
+                    const imageUrl = await handleImageSubmit()
+                    if (imageUrl !== "") {
+                        values.image = imageUrl;
+                        handleSubmit(values);
+                        onFinish(values)
+                    } else {
+                        console.log('didnt work')
+                    }
                 }}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
@@ -145,8 +101,6 @@ const AddProduct = () => {
                     label="Product Name"
                     name="name"
                     rules={[{ required: true, message: 'Product name Required' }]}
-                    onChange={handleInputChange}
-
                 >
                     <Input />
                 </Form.Item>
@@ -155,23 +109,11 @@ const AddProduct = () => {
                     label="Product Description"
                     name="description"
                     rules={[{ required: true, message: 'Product Description Required' }]}
-                    onChange={handleInputChange}
-
                 >
                     <Input />
                 </Form.Item>
 
-                <Form.Item label="Image" name="image" getValueFromEvent={normFile} 
-                                onChange={handleInputChange}
-                                >
-                    <Upload action="/upload.do" listType="picture-card">
-                        <div>
-                            <PlusOutlined />
-                            <AdvancedImage cldImg={myImage} />
-                            <div style={{ marginTop: 8 }}>Upload</div>
-                        </div>
-                    </Upload>
-                </Form.Item>
+                <Uploader imageUpload={handleImg} image={imageUpload.image} />
 
                 <Form.Item
                     label="Quantity"
@@ -192,7 +134,6 @@ const AddProduct = () => {
                 <Form.Item
                     label="Category"
                     name="categories"
-                   onChange={handleCategoryInputChange}
                 >
                     <Input />
                 </Form.Item>
@@ -203,8 +144,9 @@ const AddProduct = () => {
                     </Button>
                 </Form.Item>
             </Form>
-        </div>
+        </div >
     )
 };
+
 
 export default AddProduct;

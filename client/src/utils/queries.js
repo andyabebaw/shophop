@@ -26,6 +26,7 @@ export const QUERY_ALL_PRODUCTS = gql`
       _id
       name
       description
+      image
       price
       quantity
       categories {

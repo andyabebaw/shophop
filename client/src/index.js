@@ -1,3 +1,4 @@
+
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
@@ -7,8 +8,13 @@ import { BrowserRouter } from "react-router-dom";
 import client from "./utils/apolloClient";
 import { AuthProvider } from "./utils/context/authContext";
 import { ProductProvider } from "./utils/context/productContext";
+import { createRoot } from 'react-dom/client';
+const container = document.getElementById('root');
+const root = createRoot(container);
 
-ReactDOM.render(
+
+
+root.render(
   <ApolloProvider client={client}>
     <AuthProvider>
       <ProductProvider>
@@ -19,6 +25,5 @@ ReactDOM.render(
         </BrowserRouter>
       </ProductProvider>
     </AuthProvider>
-  </ApolloProvider>,
-  document.getElementById("root")
+  </ApolloProvider>
 );

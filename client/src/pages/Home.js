@@ -16,7 +16,8 @@ const Home = () => {
   const styles = {
     search: {
       position: 'relative',
-      bottom: '6vh'
+      bottom: '6vh',
+      left: '30%'
     }
   }
 
@@ -53,7 +54,7 @@ const Home = () => {
                 name={d.name}
                 price={d.price}
                 image={
-                  "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                  d.image
                 }
                 _id={d._id}
               />
