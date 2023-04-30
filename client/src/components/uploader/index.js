@@ -28,7 +28,7 @@ const Uploader = (props) => {
     }
 
     return (
-        <Form.Item label="Image" name="image"  onChange={handleOnChange}>
+        <Form.Item rules={[{ required: true, message: 'Image Required' }]} label="Image" name="image"  onChange={handleOnChange}>
             <Upload maxCount={1} listType="picture-card" ref={inputFileRef}>
                 <div>
                     <PlusOutlined />
