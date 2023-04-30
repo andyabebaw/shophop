@@ -5,7 +5,7 @@ import { AuthContext } from "../utils/context/authContext";
 import { ProductContext } from "../utils/context/productContext";
 import { UPDATE_PRODUCT_REVIEWS } from "../utils/mutations";
 import { QUERY_PRODUCT_ById } from "../utils/queries";
-import { Breadcrumb, Layout, Menu, theme, Typography, Divider, Button, Form, Input, Card } from 'antd';
+import { Layout, Typography, Divider, Button, Form, Input, Card, Image } from 'antd';
 import { ShoppingCartOutlined } from "@ant-design/icons";
 const { Title, Text } = Typography;
 
@@ -76,6 +76,18 @@ function Detail() {
     // TODO: Add to cart, implement this later, after we have the cart page, update to UI, etc.
   };
 
+  const styles = {
+    imageContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+      position: 'relative',
+      bottom: '5vh'
+    },
+    image: {
+      borderRadius: '25px'
+    }
+  }
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -85,6 +97,9 @@ function Detail() {
       <Content style={{ padding: '0 50px' }}>
         <Title>{product.name}</Title>
         <Text type="secondary">{product.description}</Text>
+        <div style={styles.imageContainer}>
+          <Image src={product.image} style={styles.image} width={'40vh'} />
+        </div>
         <Divider />
         <Title level={5} type="success">Price: ${product.price}</Title>
         <Text level={5}>Remaining: {product.quantity}</Text>

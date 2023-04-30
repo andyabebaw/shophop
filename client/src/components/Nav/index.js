@@ -8,7 +8,7 @@ import {
   ThunderboltOutlined,
   HomeOutlined
 } from "@ant-design/icons";
-import { Layout, Menu, Input, Divider, Image } from "antd";
+import { Layout, Menu, Divider, Image } from "antd";
 import React, { useState } from "react";
 
 const Navbar = () => {
@@ -16,7 +16,7 @@ const Navbar = () => {
 
   const onClick = (e) => {
     console.log("click ", e);
-    // setCurrent(e.key);
+    setCurrent(e.key);
     if (e.key === 'logout') {
       handleLogout()
     }
@@ -34,16 +34,13 @@ const Navbar = () => {
     console.log("user", user);
   }, [user]);
 
-  const { Search } = Input;
-
-  const style = {
-    position: "relative",
-    display: "flex",
-    justifyContent: "right",
-    alignItems: "flex-end"
-  };
-
   const styles = {
+    nav: {
+      position: "relative",
+      display: "flex",
+      justifyContent: "right",
+      alignItems: "flex-end"
+    },
     logo: {
       position: 'absolute',
       bottom: '1vh',
@@ -51,8 +48,6 @@ const Navbar = () => {
   }
 
   let items;
-
-  const onSearch = (value) => console.log(value);
 
   if (user?.data.isAdmin) {
     items = [
@@ -156,7 +151,7 @@ const Navbar = () => {
     <Layout>
 
       <Menu
-        style={style}
+        style={styles.nav}
         onClick={onClick}
         selectedKeys={[current]}
         mode="horizontal"
