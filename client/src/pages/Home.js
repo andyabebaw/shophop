@@ -5,7 +5,7 @@ import { QUERY_ALL_PRODUCTS, QUERY_CATEGORIES } from "../utils/queries";
 import { Col, Row, Space, Input } from "antd";
 import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
-import { UPDATE_PRODUCT } from "../utils/mutations";
+// import { UPDATE_PRODUCT } from "../utils/mutations";
 // import ProductItem from '../components/ProductItem';
 // import Cart from "../components/Cart";
 
