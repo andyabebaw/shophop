@@ -16,7 +16,8 @@ const Home = () => {
   const styles = {
     search: {
       position: 'relative',
-      bottom: '6vh'
+      bottom: '6vh',
+      left: '30%'
     }
   }
 
