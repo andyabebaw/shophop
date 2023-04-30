@@ -93,3 +93,11 @@ export const UPDATE_PRODUCT_REVIEWS = gql`
     }
   }
 `;
+
+export const DELETE_PRODUCT = gql`
+  mutation deleteProduct($_id: ID!) {
+    deleteProduct(_id: $_id) {
+      _id
+    }
+  }
+`;

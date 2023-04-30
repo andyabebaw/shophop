@@ -193,6 +193,18 @@ const resolvers = {
 
       throw new AuthenticationError("Forbidden, You are not an admin");
     },
+    deleteProduct: async (parent, { _id }, context) => {
+      console.log("entered mutation deleteProduct resolver");
+      console.log(_id);
+      const product = await Product.findOneAndDelete({ _id: _id })
+        .then((err, docs) => {
+        if (err) {
+          console.log(err)
+        } else {
+          console.log(`deleted product ${docs}`)
+        }
+      })
+    },
     updateProduct: async (parent, { _id, product }, context) => {
       console.log("entered mutation updateProduct resolver");
       if (context.user.isAdmin) {

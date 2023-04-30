@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../utils/context/authContext";
 import { ProductContext } from "../utils/context/productContext";
-import { UPDATE_PRODUCT_REVIEWS } from "../utils/mutations";
+import { UPDATE_PRODUCT_REVIEWS, DELETE_PRODUCT } from "../utils/mutations";
 import { QUERY_PRODUCT_ById } from "../utils/queries";
 import { Layout, Typography, Divider, Button, Form, Input, Card, Image } from 'antd';
 import { ShoppingCartOutlined } from "@ant-design/icons";
@@ -18,11 +18,23 @@ function Detail() {
   const inputRef = useRef(null);
   const productId = useParams().id;
   const [updateProductReviews] = useMutation(UPDATE_PRODUCT_REVIEWS);
+  const [deleteProduct] = useMutation(DELETE_PRODUCT)
   const { loading, data } = useQuery(QUERY_PRODUCT_ById, {
     variables: { id: productId },
   });
   const product = data?.product || {};
   const [form] = Form.useForm();
+
+  const handleProductDelete = async (_id) => {
+    const mutationResponse = await deleteProduct({
+      variables: {
+        _id: productId,
+      }
+    })
+    console.log(`repsponse: ${mutationResponse}`)
+    window.alert(`product deleted`)
+    document.location.replace('/')
+  }
 
   useEffect(() => {
     // console.log("product", product);
@@ -104,12 +116,19 @@ function Detail() {
         <Title level={5} type="success">Price: ${product.price}</Title>
         <Text level={5}>Remaining: {product.quantity}</Text>
         <Divider />
+
         <Button type="default" icon={<ShoppingCartOutlined />} onClick={addToCart} size="Large">Add To Cart</Button>
         {userState.user?.data.isAdmin && (
           <Button type="primary" href={`/edit/${productId}`} danger>
             Edit This Product
           </Button>
         )}
+        {userState.user?.data.isAdmin && (
+          <Button type="primary" onClick={handleProductDelete} danger>
+            Delete This Product
+          </Button>
+        )}
+
         <Divider />
         {userState.user && (
           <Form
