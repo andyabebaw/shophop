@@ -54,7 +54,7 @@ const Home = () => {
                 name={d.name}
                 price={d.price}
                 image={
-                  "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                  "https://res.cloudinary.com/dbnrnwpje/image/upload/v1682877240/ueggf59pd4xezs6qe4xm.jpg"
                 }
                 _id={d._id}
               />

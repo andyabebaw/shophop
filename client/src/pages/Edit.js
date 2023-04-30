@@ -181,7 +181,7 @@ const onFinish = (values) => {
         style={{ maxWidth: 600 }}
         initialValues={{
           categories: product.categories || [],
-          image: "",
+          image: product.image || "",
           price: product.price,
           quantity: product.quantity,
           description: product.description,
