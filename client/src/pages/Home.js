@@ -37,7 +37,7 @@ const Home = () => {
           }}
         />
       </div>
-      <Row gutter={[16, 32]} justify={"center"}>
+      <Row gutter={[16, 32]} justify={"center"} style={{ padding: "5vh" }}>
         {data?.products
           ?.filter((d) => {
             const nameMatch = d.name.toLowerCase().includes(search.toLowerCase());

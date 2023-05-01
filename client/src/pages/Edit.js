@@ -42,7 +42,7 @@ const Edit = () => {
   }
 
   return (
-    <div >
+    <div style={{ padding: "5vh" }}>
       <Form
         name="basic"
         labelCol={{ span: 8 }}
