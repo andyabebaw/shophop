@@ -7,10 +7,15 @@ import { UPDATE_PRODUCT_REVIEWS, DELETE_PRODUCT } from "../utils/mutations";
 import { QUERY_PRODUCT_ById } from "../utils/queries";
 import { Layout, Typography, Divider, Button, Form, Input, Card, Image } from 'antd';
 import { ShoppingCartOutlined } from "@ant-design/icons";
+import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../utils/actions";
+import { idbPromise } from "../utils/helpers";
+import { useStoreContext } from "../utils/GlobalState";
+
 const { Title, Text } = Typography;
 
 
 function Detail() {
+  const [state, dispatch] = useStoreContext();
   const { Header, Content, Footer } = Layout;
   const { state: productState, dispatch: productDispatch } =
     useContext(ProductContext);
@@ -85,7 +90,27 @@ function Detail() {
   };
 
   const addToCart = () => {
+    const { cart } = state
     // TODO: Add to cart, implement this later, after we have the cart page, update to UI, etc.
+    const itemInCart = cart.find((cartItem) => cartItem.productId === productId)
+    if (itemInCart) {
+      dispatch({
+        type: UPDATE_CART_QUANTITY,
+        payload: productId,
+        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
+      });
+      idbPromise('cart', 'put', {
+        ...itemInCart,
+        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
+      });
+    } else {
+      dispatch({
+        type: ADD_TO_CART,
+        product: { purchaseQuantity: 1 }
+      });
+      idbPromise('cart', 'put', { purchaseQuantity: 1 });
+    }
+  
   };
 
   const styles = {
