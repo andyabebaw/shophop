@@ -37,9 +37,7 @@ const Home = () => {
           }}
         />
       </div>
-      <ProductList />
-      <Cart />
-      <Row gutter={[16, 32]} justify={"center"}>
+    <Cart />
       <Row gutter={[16, 32]} justify={"center"} style={{ padding: "5vh" }}>
         {data?.products
           ?.filter((d) => {
