@@ -117,14 +117,14 @@ function Detail() {
         <Text level={5}>Remaining: {product.quantity}</Text>
         <Divider />
 
-        <Button type="default" icon={<ShoppingCartOutlined />} onClick={addToCart} size="Large">Add To Cart</Button>
+        <Button type="default" icon={<ShoppingCartOutlined />} onClick={addToCart} size="Large" style={{ margin: "2vh" }}>Add To Cart</Button>
         {userState.user?.data.isAdmin && (
-          <Button type="primary" href={`/edit/${productId}`} danger>
+          <Button type="primary" href={`/edit/${productId}`} danger style={{ margin: "2vh" }}>
             Edit This Product
           </Button>
         )}
         {userState.user?.data.isAdmin && (
-          <Button type="primary" onClick={handleProductDelete} danger>
+          <Button type="primary" onClick={handleProductDelete} danger style={{ margin: "2vh" }}>
             Delete This Product
           </Button>
         )}
