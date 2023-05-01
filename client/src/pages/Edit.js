@@ -67,7 +67,6 @@ const Edit = () => {
         <Form.Item
           label="Product Name"
           name="name"
-          rules={[{ required: true, message: 'Product name Required' }]}
         >
           <Input placeholder={product.name} />
         </Form.Item>
@@ -75,7 +74,6 @@ const Edit = () => {
         <Form.Item
           label="Product Description"
           name="description"
-          rules={[{ required: true, message: 'Product Description Required' }]}
         >
           <Input placeholder={product.description} />
         </Form.Item>
@@ -83,7 +81,6 @@ const Edit = () => {
         <Form.Item
           label="Quantity"
           name="quantity"
-          rules={[{ required: true, message: 'Quantity Required' }]}
         >
           <InputNumber placeholder={product.quantity} />
         </Form.Item>
@@ -91,7 +88,6 @@ const Edit = () => {
         <Form.Item
           label="Price"
           name="price"
-          rules={[{ required: true, message: 'Quantity Required' }]}
         >
           <InputNumber placeholder={product.price} />
         </Form.Item>
