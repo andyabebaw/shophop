@@ -6,7 +6,7 @@ import CartItem from '../CartItem';
 import { idbPromise } from "../../utils/helpers";
 import { useLazyQuery } from '@apollo/client';
 import { useStoreContext } from '../../utils/GlobalState';
-import { ADD_MULTIPLE_TO_CART } from '../../utils/actions';
+import { ADD_MULTIPLE_TO_CART, TOGGLE_CART} from '../../utils/actions';
 import { QUERY_CHECKOUT } from '../../utils/queries';
 
 
@@ -15,10 +15,12 @@ const stripePromise = loadStripe(
 );
 
 const Cart = () => {
+
   const [state, dispatch] = useStoreContext();
+  console.log("=========testing========")
+
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
   const { user }= useContext(AuthContext); 
-
   useEffect(() => {
     if (data) {
       stripePromise.then((res) => {
@@ -37,6 +39,10 @@ const Cart = () => {
       getCart();
     }
   }, [state.cart.length, dispatch]);
+
+  function toggleCart() {
+    dispatch({ type: TOGGLE_CART });
+  }
 
   function calculateTotal() {
     let sum = 0;
@@ -59,15 +65,27 @@ const Cart = () => {
       variables: { products: productIds },
     });
   }
-
+  if (!state.cartOpen) {
+    return (
+      <div className="cart-closed" onClick={toggleCart}>
+        <span role="img" aria-label="trash">
+          🛒
+        </span>
+      </div>
+    );
+  }
   return (
     <div className="cart">
+         <div className="close" onClick={toggleCart}>
+        [close]
+      </div>
       <h2>Shopping Cart</h2>
       {state.cart.length ? (
         <div>
           {state.cart.map((item) => (
-            <CartItem key={item._id} item={item} />
-          ))}
+          
+            <CartItem key={item._id} item={item} /> 
+          ))}  
 
           <div>
             <strong>Total: ${calculateTotal()}</strong>

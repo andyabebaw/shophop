@@ -6,7 +6,7 @@ import { Col, Row, Space, Input } from "antd";
 import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 // import { UPDATE_PRODUCT } from "../utils/mutations";
-// import ProductItem from '../components/ProductItem';
+import ProductList from "../components/ProductList";
 // import Cart from "../components/Cart";
 
 const Home = () => {
@@ -36,6 +36,7 @@ const Home = () => {
           }}
         />
       </div>
+      <ProductList />
       <Row gutter={[16, 32]} justify={"center"}>
         {data?.products
           ?.filter((d) => {
