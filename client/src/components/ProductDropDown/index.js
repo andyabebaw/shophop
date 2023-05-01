@@ -12,7 +12,7 @@ function ProductDropDown() {
     return <div>Loading...</div>;
   }
     var items = []
-    console.log(data?.products)
+    // console.log(data?.products)
     data?.products.forEach(function ( i) {
       var link = "/products/" + i._id
       const item = 

@@ -145,6 +145,7 @@ const resolvers = {
         );
       }
     },
+    
     addProduct: async (parent, addedProduct, context) => {
       if (context.user && context.user.isAdmin) {
         const { categories = [], ...otherDatas } = addedProduct.product;

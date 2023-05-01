@@ -6,7 +6,6 @@ import Nav from "./components/Nav";
 import AddProduct from "./pages/AddProduct";
 import Detail from "./pages/Detail";
 import Edit from "./pages/Edit";
-import EditProduct from "./pages/EditProduct";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NoMatch from "./pages/NoMatch";
@@ -53,7 +52,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/editproduct" element={<EditProduct />} />
         <Route path="/edit/:id" element={<Edit />} />
         <Route path="/addproduct" element={<AddProduct />} />
         <Route path="/products/:id" element={<Detail />} />
