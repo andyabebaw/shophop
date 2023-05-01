@@ -25,6 +25,6 @@
   },
   "homepage": "https://github.com/harryhamlin/shophop#readme",
   "dependencies": {
-    "dotenv": "^16.0.3"
+    "@harryhamlin/readme-generator": "^1.0.4"
   }
 }

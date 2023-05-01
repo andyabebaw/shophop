@@ -3,9 +3,9 @@ import React, { useContext, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../utils/context/authContext";
 import { ProductContext } from "../utils/context/productContext";
-import { UPDATE_PRODUCT_REVIEWS } from "../utils/mutations";
+import { UPDATE_PRODUCT_REVIEWS, DELETE_PRODUCT } from "../utils/mutations";
 import { QUERY_PRODUCT_ById } from "../utils/queries";
-import { Breadcrumb, Layout, Menu, theme, Typography, Divider, Button, Form, Input, Card } from 'antd';
+import { Layout, Typography, Divider, Button, Form, Input, Card, Image } from 'antd';
 import { ShoppingCartOutlined } from "@ant-design/icons";
 const { Title, Text } = Typography;
 
@@ -18,11 +18,23 @@ function Detail() {
   const inputRef = useRef(null);
   const productId = useParams().id;
   const [updateProductReviews] = useMutation(UPDATE_PRODUCT_REVIEWS);
+  const [deleteProduct] = useMutation(DELETE_PRODUCT)
   const { loading, data } = useQuery(QUERY_PRODUCT_ById, {
     variables: { id: productId },
   });
   const product = data?.product || {};
   const [form] = Form.useForm();
+
+  const handleProductDelete = async (_id) => {
+    const mutationResponse = await deleteProduct({
+      variables: {
+        _id: productId,
+      }
+    })
+    console.log(`repsponse: ${mutationResponse}`)
+    window.alert(`product deleted`)
+    document.location.replace('/')
+  }
 
   useEffect(() => {
     // console.log("product", product);
@@ -76,6 +88,18 @@ function Detail() {
     // TODO: Add to cart, implement this later, after we have the cart page, update to UI, etc.
   };
 
+  const styles = {
+    imageContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+      position: 'relative',
+      bottom: '5vh'
+    },
+    image: {
+      borderRadius: '25px'
+    }
+  }
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -85,16 +109,26 @@ function Detail() {
       <Content style={{ padding: '0 50px' }}>
         <Title>{product.name}</Title>
         <Text type="secondary">{product.description}</Text>
+        <div style={styles.imageContainer}>
+          <Image src={product.image} style={styles.image} width={'40vh'} />
+        </div>
         <Divider />
         <Title level={5} type="success">Price: ${product.price}</Title>
         <Text level={5}>Remaining: {product.quantity}</Text>
         <Divider />
+
         <Button type="default" icon={<ShoppingCartOutlined />} onClick={addToCart} size="Large">Add To Cart</Button>
         {userState.user?.data.isAdmin && (
           <Button type="primary" href={`/edit/${productId}`} danger>
             Edit This Product
           </Button>
         )}
+        {userState.user?.data.isAdmin && (
+          <Button type="primary" onClick={handleProductDelete} danger>
+            Delete This Product
+          </Button>
+        )}
+
         <Divider />
         {userState.user && (
           <Form
