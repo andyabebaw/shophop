@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client";
 import { ADD_PRODUCT } from "../utils/mutations";
 import React, { useState } from "react";
-import { Form, Input, Button, InputNumber } from 'antd';
+import { Form, Input, Button, InputNumber, Row, Col } from 'antd';
 import ProductDropDown from "../components/ProductDropDown";
 import Uploader from '../components/uploader/index';
 import Axios from 'axios';
@@ -70,82 +70,86 @@ const AddProduct = (props) => {
     }
 
     return (
-        <div >
-            <div style={{ padding: "40px" }}>
+        <Row>
+            <Col span={12} style={{ padding: "5vh" }}>
+                <Form
+                    name="basic"
+                    labelCol={{ span: 8 }}
+                    wrapperCol={{ span: 16 }}
+                    style={{ maxWidth: 500 }}
+                    initialValues={{
+                        categories: [],
+                        image: ""
+                    }}
+                    onFinish={async (values) => {
+                        const imageUrl = await handleImageSubmit()
+                        if (imageUrl !== "") {
+                            console.log(imageUrl)
+                            values.image = imageUrl;
+                            handleSubmit(values);
+                            onFinish(values)
+                        } else {
+                            console.log('didnt work')
+                        }
+                    }}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
+                >
+
+                    <Form.Item
+                        label="Product Name"
+                        name="name"
+                        rules={[{ required: true, message: 'Product name Required' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Product Description"
+                        name="description"
+                        rules={[{ required: true, message: 'Product Description Required' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Uploader imageUpload={handleImg} image={imageUpload.image} />
+
+                    <Form.Item
+                        label="Quantity"
+                        name="quantity"
+                        rules={[{ required: true, message: 'Quantity Required' }]}
+                    >
+                        <InputNumber />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Price"
+                        name="price"
+                        rules={[{ required: true, message: 'Quantity Required' }]}
+                    >
+                        <InputNumber />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Category"
+                        name="categories"
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                        <Button type="primary" htmlType="submit">
+                            Add Product
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </Col>
+            <Col style={{ padding: "5vh" }}>
+
                 <ProductDropDown ></ProductDropDown>
-            </div>
-            <Form
-                name="basic"
-                labelCol={{ span: 8 }}
-                wrapperCol={{ span: 16 }}
-                style={{ maxWidth: 600 }}
-                initialValues={{
-                    categories: [],
-                    image: ""
-                }}
-                onFinish={async (values) => {
-                    const imageUrl = await handleImageSubmit()
-                    if (imageUrl !== "") {
-                        console.log(imageUrl)
-                        values.image = imageUrl;
-                        handleSubmit(values);
-                        onFinish(values)
-                    } else {
-                        console.log('didnt work')
-                    }
-                }}
-                onFinishFailed={onFinishFailed}
-                autoComplete="off"
-            >
 
-                <Form.Item
-                    label="Product Name"
-                    name="name"
-                    rules={[{ required: true, message: 'Product name Required' }]}
-                >
-                    <Input />
-                </Form.Item>
-
-                <Form.Item
-                    label="Product Description"
-                    name="description"
-                    rules={[{ required: true, message: 'Product Description Required' }]}
-                >
-                    <Input />
-                </Form.Item>
-
-                <Uploader imageUpload={handleImg} image={imageUpload.image} />
-
-                <Form.Item
-                    label="Quantity"
-                    name="quantity"
-                    rules={[{ required: true, message: 'Quantity Required' }]}
-                >
-                    <InputNumber />
-                </Form.Item>
-
-                <Form.Item
-                    label="Price"
-                    name="price"
-                    rules={[{ required: true, message: 'Quantity Required' }]}
-                >
-                    <InputNumber />
-                </Form.Item>
-
-                <Form.Item
-                    label="Category"
-                    name="categories"
-                >
-                    <Input />
-                </Form.Item>
-
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    <Button type="primary" htmlType="submit">
-                        Add Product
-                    </Button>
-                </Form.Item>
-            </Form>
-        </div >
+            </Col>
+        </Row>
     )
 };
 
