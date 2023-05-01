@@ -1,6 +1,6 @@
 import React from 'react';
 import { ShoppingCartOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { Avatar, Card, Button } from 'antd';
+import { Card, Button } from 'antd';
 
 const { Meta } = Card;
 
@@ -11,6 +11,7 @@ const ProductCard = ({ name, price, image, addToCart, _id }) => (
       <img
         alt={name}
         src={image}
+        style={{ height: "25vh", objectFit: 'cover' }}
       />
     }
     actions={[
