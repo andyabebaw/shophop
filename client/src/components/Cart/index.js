@@ -1,7 +1,6 @@
 import { loadStripe } from "@stripe/stripe-js";
 import React, { useEffect } from "react";
-import { AuthContext }  from '../../utils/context/authContext';
-import { useContext } from "react";
+import { AuthProvider } from '../../utils/context/authContext';
 import CartItem from '../CartItem';
 import { idbPromise } from "../../utils/helpers";
 import { useLazyQuery } from '@apollo/client';
@@ -17,10 +16,9 @@ const stripePromise = loadStripe(
 const Cart = () => {
 
   const [state, dispatch] = useStoreContext();
-  console.log("=========testing========")
+  // console.log("=========testing========")
 
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
-  const { user }= useContext(AuthContext); 
   useEffect(() => {
     if (data) {
       stripePromise.then((res) => {
@@ -36,6 +34,7 @@ const Cart = () => {
     }
 
     if (!state.cart.length) {
+      console.log("cart fetched")
       getCart();
     }
   }, [state.cart.length, dispatch]);
@@ -80,7 +79,7 @@ const Cart = () => {
         [close]
       </div>
       <h2>Shopping Cart</h2>
-      {state.cart.length ? (
+      {state.cart.length && AuthProvider.user ? (
         <div>
           {state.cart.map((item) => (
           
@@ -90,7 +89,7 @@ const Cart = () => {
           <div>
             <strong>Total: ${calculateTotal()}</strong>
 
-            {user.loggedIn() ? (
+            {AuthProvider.user ? (
               <button onClick={submitCheckout}>Checkout</button>
             ) : (
               <span>(log in to check out)</span>

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 // import { UPDATE_PRODUCT } from "../utils/mutations";
 import ProductList from "../components/ProductList";
-// import Cart from "../components/Cart";
+import Cart from "../components/Cart";
 
 const Home = () => {
   const { loading, data } = useQuery(QUERY_ALL_PRODUCTS);
@@ -38,6 +38,7 @@ const Home = () => {
         />
       </div>
       <ProductList />
+      <Cart />
       <Row gutter={[16, 32]} justify={"center"}>
         {data?.products
           ?.filter((d) => {

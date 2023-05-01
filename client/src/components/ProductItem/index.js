@@ -1,4 +1,4 @@
-
+import React from "react";
 import { Link } from "react-router-dom";
 import { pluralize } from "../../utils/helpers"
 import { useStoreContext } from "../../utils/GlobalState";
@@ -39,13 +39,6 @@ function ProductItem(item) {
     }
   }
 
-// import React from 'react'
-
-// function ProductItem() {
-//   return (
-//     <ProductCard name={name} price={price} src={'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'} addToCart={addToCart}/>
-//   );
-
   return (
     <div className="card px-1 py-1">
       <Link to={`/products/${_id}`}>
@@ -62,7 +55,6 @@ function ProductItem(item) {
       <button onClick={addToCart}>Add to cart</button>
     </div>
   );
-  
 }
 
 export default ProductItem
