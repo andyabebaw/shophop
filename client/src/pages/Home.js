@@ -6,8 +6,8 @@ import { Col, Row, Space, Input } from "antd";
 import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 // import { UPDATE_PRODUCT } from "../utils/mutations";
-// import ProductItem from '../components/ProductItem';
-// import Cart from "../components/Cart";
+import ProductList from "../components/ProductList";
+import Cart from "../components/Cart";
 
 const Home = () => {
   const { loading, data } = useQuery(QUERY_ALL_PRODUCTS);
@@ -37,6 +37,7 @@ const Home = () => {
           }}
         />
       </div>
+    {/* <Cart /> */}
       <Row gutter={[16, 32]} justify={"center"} style={{ padding: "5vh" }}>
         {data?.products
           ?.filter((d) => {

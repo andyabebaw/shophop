@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User, Product, Category } = require("../models");
+const { User, Product, Category, Order } = require("../models");
 const { signToken } = require("../utils/auth");
 const stripe = require("stripe")(
   "sk_test_51Mzw9mK92Z1fiE1CekPRcxQuqnWoYxJ9eq5nyU2DmPuSzzqEm24fxw5ENagAziQCJPjnM5F53DVvwbqm9zhRW0Io00PsLIuc6Y"
@@ -41,18 +41,22 @@ const resolvers = {
       return await Product.findById(_id).populate("categories");
     },
     checkout: async (parent, args, context) => {
+           console.log("=====teest for stripe====");
+
       const url = new URL(context.headers.referer).origin;
       const order = new Order({ products: args.products });
       const line_items = [];
-
+      console.log(order);
       const { products } = await order.populate("products");
-     console.log("teest fore stripe");
       for (let i = 0; i < products.length; i++) {
         const product = await stripe.products.create({
           name: products[i].name,
           description: products[i].description,
           images: [`${url}/images/${products[i].image}`],
+          
         });
+        console.log(products[i].name);
+        console.log("=====teest for stripe====22");
 
         const price = await stripe.prices.create({
           product: product.id,
@@ -192,18 +196,6 @@ const resolvers = {
       }
 
       throw new AuthenticationError("Forbidden, You are not an admin");
-    },
-    deleteProduct: async (parent, { _id }, context) => {
-      console.log("entered mutation deleteProduct resolver");
-      console.log(_id);
-      const product = await Product.findOneAndDelete({ _id: _id })
-        .then((err, docs) => {
-        if (err) {
-          console.log(err)
-        } else {
-          console.log(`deleted product ${docs}`)
-        }
-      })
     },
     updateProduct: async (parent, { _id, product }, context) => {
       console.log("entered mutation updateProduct resolver");

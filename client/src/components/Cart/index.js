@@ -1,12 +1,11 @@
 import { loadStripe } from "@stripe/stripe-js";
 import React, { useEffect } from "react";
-import { AuthContext }  from '../../utils/context/authContext';
-import { useContext } from "react";
+import { AuthProvider } from '../../utils/context/authContext';
 import CartItem from '../CartItem';
 import { idbPromise } from "../../utils/helpers";
 import { useLazyQuery } from '@apollo/client';
 import { useStoreContext } from '../../utils/GlobalState';
-import { ADD_MULTIPLE_TO_CART } from '../../utils/actions';
+import { ADD_MULTIPLE_TO_CART, TOGGLE_CART} from '../../utils/actions';
 import { QUERY_CHECKOUT } from '../../utils/queries';
 
 
@@ -15,11 +14,23 @@ const stripePromise = loadStripe(
 );
 
 const Cart = () => {
-  const [state, dispatch] = useStoreContext();
-  const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
-  const { user }= useContext(AuthContext); 
 
+  const [state, dispatch] = useStoreContext();
+  // console.log("=========testing========")
+  const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
+  let cart = [
+       {
+      _id: '645014505d538d6e240b0f85',
+      name: "shoes",
+      price: 66,
+      purchaseQuantity: 1,
+      image: "",
+    }
+  ];
+  // const { cart } = state
+  state.cart = cart;
   useEffect(() => {
+
     if (data) {
       stripePromise.then((res) => {
         res.redirectToCheckout({ sessionId: data.checkout.session });
@@ -34,9 +45,14 @@ const Cart = () => {
     }
 
     if (!state.cart.length) {
+      console.log("cart fetched")
       getCart();
     }
   }, [state.cart.length, dispatch]);
+
+  function toggleCart() {
+    dispatch({ type: TOGGLE_CART });
+  }
 
   function calculateTotal() {
     let sum = 0;
@@ -47,32 +63,36 @@ const Cart = () => {
   }
 
   function submitCheckout() {
+   console.log(state.cart)
     const productIds = [];
 
     state.cart.forEach((item) => {
+      console.log(item);
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
       }
     });
-
+   console.log(productIds);
     getCheckout({
       variables: { products: productIds },
     });
+    
   }
-
   return (
-    <div className="cart">
+    <div className="cart" > 
+         <div className="close" onClick={toggleCart}>
+      </div>
       <h2>Shopping Cart</h2>
       {state.cart.length ? (
         <div>
           {state.cart.map((item) => (
-            <CartItem key={item._id} item={item} />
-          ))}
-
+        
+            <CartItem key={item._id} item={item} />  
+          ))}  
           <div>
             <strong>Total: ${calculateTotal()}</strong>
 
-            {user.loggedIn() ? (
+            {AuthProvider ? (
               <button onClick={submitCheckout}>Checkout</button>
             ) : (
               <span>(log in to check out)</span>
