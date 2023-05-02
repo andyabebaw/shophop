@@ -17,9 +17,20 @@ const Cart = () => {
 
   const [state, dispatch] = useStoreContext();
   // console.log("=========testing========")
-
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
+  let cart = [
+       {
+      _id: '645014505d538d6e240b0f85',
+      name: "shoes",
+      price: 66,
+      purchaseQuantity: 1,
+      image: "",
+    }
+  ];
+  // const { cart } = state
+  state.cart = cart;
   useEffect(() => {
+
     if (data) {
       stripePromise.then((res) => {
         res.redirectToCheckout({ sessionId: data.checkout.session });
@@ -52,34 +63,36 @@ const Cart = () => {
   }
 
   function submitCheckout() {
+   console.log(state.cart)
     const productIds = [];
 
     state.cart.forEach((item) => {
+      console.log(item);
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
       }
     });
-
+   console.log(productIds);
     getCheckout({
       variables: { products: productIds },
     });
+    
   }
   return (
-    <div className="cart">
+    <div className="cart" > 
          <div className="close" onClick={toggleCart}>
       </div>
       <h2>Shopping Cart</h2>
-      {state.cart.length && AuthProvider.user ? (
+      {state.cart.length ? (
         <div>
           {state.cart.map((item) => (
-          
-            <CartItem key={item._id} item={item} /> 
+        
+            <CartItem key={item._id} item={item} />  
           ))}  
-
           <div>
             <strong>Total: ${calculateTotal()}</strong>
 
-            {AuthProvider.user ? (
+            {AuthProvider ? (
               <button onClick={submitCheckout}>Checkout</button>
             ) : (
               <span>(log in to check out)</span>

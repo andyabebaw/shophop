@@ -94,6 +94,7 @@ function Detail() {
     // TODO: Add to cart, implement this later, after we have the cart page, update to UI, etc.
     const itemInCart = cart.find((cartItem) => cartItem.productId === productId)
     if (itemInCart) {
+      // console.log("from detail page" + itemInCart);
       dispatch({
         type: UPDATE_CART_QUANTITY,
         payload: productId,
