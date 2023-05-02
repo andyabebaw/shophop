@@ -15,7 +15,7 @@ function ProductDropDown() {
   var items = []
   // console.log(data?.products)
   data?.products.forEach(function (i) {
-    var link = "/product/" + i._id
+    var link = "/products/" + i._id
     const item =
     {
       label: (
