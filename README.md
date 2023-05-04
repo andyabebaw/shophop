@@ -14,6 +14,8 @@ ShopHop is an online commerce platform where administrators can build an online 
 
 ## Usage
 
+***Admin login: admin@gmail.com pw: Password1234'
+
 After purchasing this product, the admin user can access the store building features of this application, uploading products, quantities, prices, and pictures. They can then edit or delete them as needed. The users can create an account, add things to their cart, and purchase them.
 
 Add product page:
